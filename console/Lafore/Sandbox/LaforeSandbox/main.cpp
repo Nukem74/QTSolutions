@@ -67,7 +67,7 @@ class Card
             {
                 case clubs:
                 {
-                    cout << static_cast<char>(5);
+                    cout << static_cast<char>(5);                   //применение символов ASCII по их номеру в таблице, преобразованному к типу char
                     break;
                 }
                 case diamonds:
@@ -94,7 +94,7 @@ class Card
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Card deck[52];
+    Card deck[52];                              //создание массива объектов(выглядит как объект на 52 элемента)
     int j;
 
     cout << endl;
@@ -102,22 +102,22 @@ int main(int argc, char *argv[])
     {
         int num = (j % 13) + 2;
         Suit su = Suit(j/13);
-        deck[j].set(num, su);
+        deck[j].set(num, su);                   //установка значений приватных полей объектов массива
     }
     cout << "Base deck: \n";
     for(j = 0; j < 52; j++)
     {
-        deck[j].display();
+        deck[j].display();                      //отображение значений приватных полей объектов массива
         cout << "   ";
         if(!((j + 1) % 13))
         {
             cout << endl;
         }
     }
-        srand(time(NULL));
+        srand(time(NULL));                      //инициализируем функцию srand системным временем
         for(j = 0; j < 52; j++)
         {
-            int k = rand() % 52;
+            int k = rand() % 52;                //получение случайного целого числа из диапозона от 0 до 52(остаток от деления, смотри на остаток от деления!)
             Card temp = deck[j];
             deck[j] = deck [k];
             deck[k] = temp;
