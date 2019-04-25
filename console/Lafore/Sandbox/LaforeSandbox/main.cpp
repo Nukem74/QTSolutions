@@ -3,48 +3,23 @@
 
 using namespace std;
 
-class String
-{
-private:
-    enum{SZ = 80};
-    char str[SZ];
-public:
-    String()                        //конструктор без параметров
-    {
-        str[0] = '\0';
-    }
-    String(char s [])
-    {
-        strcpy (str, s);            //конструктор с одним параметром
-    }
-    void display()
-    {
-        cout << str;
-    }
-    void concat(String s2)
-    {
-        if(strlen(str) + strlen(s2.str) < SZ)
-            strcat(str, s2.str);
-        else {
-            cout << "/nOverflow";
-        }
-    }
-};
+
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    String s1 ("Happy Hanooka!");
-    String s2 = "mein untermensch";
-    String s3;
-    cout << "\ns1="; s1.display();
-    cout << "\ns2="; s2.display();
-    cout << "\ns3="; s3.display();
+    string s1("bark");                  //инициализация строковой переменной с помощью конструктора с одним аргументом
+    string s2 = "bite";                 //инициализация строковой переменной с помощью операции присваивания
+    string s3;                          //объявление строковой переменной
 
-    s3 = s1;
-    cout << "\ns3="; s3.display();
-    s3.concat(s2);
-    cout << "\ns3="; s3.display();
-    cout << endl;
+    s3 = s1;                            //допустимое копирование строки с помощью оператора присвоения
+
+    cout << "s3: " << s3 << endl;
+    s3 = "Doesn't " + s1 + " and doesn't ";     //допустимая конкатенация строк с помощью оператора сложения
+    s3 += s2;
+    cout << "s3: " << s3 << endl;
+
+    s1.swap(s2);                                //метод замены строк
+    cout << s1 << " and doesn't " << s2 << endl;
     return a.exec();
 }
