@@ -8,18 +8,21 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string s1("bark");                  //инициализация строковой переменной с помощью конструктора с одним аргументом
-    string s2 = "bite";                 //инициализация строковой переменной с помощью операции присваивания
-    string s3;                          //объявление строковой переменной
+    string full_name, nickname, address;
+    string greeting ("Hello. ");
 
-    s3 = s1;                            //допустимое копирование строки с помощью оператора присвоения
+    cout << "Enter your name: ";
+    getline(cin, full_name);
+    cout << "\nYour name is: " << full_name << endl;
+    cout << "Enter your nickname: ";
+    cin >> nickname;
 
-    cout << "s3: " << s3 << endl;
-    s3 = "Doesn't " + s1 + " and doesn't ";     //допустимая конкатенация строк с помощью оператора сложения
-    s3 += s2;
-    cout << "s3: " << s3 << endl;
+    greeting += nickname;
+    cout << greeting << endl;
 
-    s1.swap(s2);                                //метод замены строк
-    cout << s1 << " and doesn't " << s2 << endl;
+    cout << "Enter your address with multiple lines\n";
+    cout << "Finish your entry with $\n";
+    getline(cin, address, '$');
+    cout << "Your address: " << address;
     return a.exec();
 }
