@@ -53,7 +53,7 @@ OBJECTS       = debug/main.o \
 		debug/mainwindow.o \
 		debug/moc_mainwindow.o
 
-DIST          = img/qt-logo.png ..\Usemskov44\mainwindow.h ..\Usemskov44\main.cpp \
+DIST          = img/qt.png ..\Usemskov44\mainwindow.h ..\Usemskov44\main.cpp \
 		..\Usemskov44\mainwindow.cpp
 QMAKE_TARGET  = Usemskov44
 DESTDIR        = debug\ #avoid trailing-slash linebreak

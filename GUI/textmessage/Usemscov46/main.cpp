@@ -9,8 +9,13 @@ int main(int argc, char *argv[])
     QTextCodec *codec = QTextCodec::codecForName("CP1251");
         QTextCodec::setCodecForLocale(codec);
         QLabel label (QObject::tr("Окошечко"));
+        label.setAlignment(Qt::AlignCenter);                                                 //форматирование шрифта виджета label
+        label.setFont(QFont("Arial", 12));
 
-    if(QMessageBox::question(NULL,  QObject::tr("Подтвердите"), QObject::tr("Выйти из программы?"), QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Ok) == QMessageBox::Ok)
+        label.resize(600, 400);                                                              //форматирование заголовка окна
+        label.setWindowTitle(QObject::tr("Окно вопроса"));
+        label.show();
+   /*QMessageBox::question(NULL,  QObject::tr("Подтвердите"), QObject::tr("Выйти из программы?"), QMessageBox::Ok|QMessageBox::Cancel,QMessageBox::Ok);
 
         /*Некорреткный пример листинга
           метод tr указан без базового класса
