@@ -1,38 +1,50 @@
 #include <QCoreApplication>
 #include <iostream>
-#include <cstring>
 
 using namespace std;
 
-class part
+class String
 {
-private:                        //перечисление приватных членов
-    char partname[30];
-    int partnumber;
-    double cost;
-public:                         //перечисление публичных членов
-    void setpart(char pname[], int pn, double c)    //метод, устанавливающий значения приватных полей, с тремя аргументами
+private:
+    enum{SZ = 80};
+    char str[SZ];
+public:
+    String()                        //конструктор без параметров
     {
-        strcpy(partname, pname);
-        partnumber = pn;
-        cost = c;
+        str[0] = '\0';
     }
-    void showpart()             //метод без аргументов, отображающий значения приватных полей
+    String(char s [])
     {
-        cout << "\nName: " << partname;
-        cout << ". partnumber: " << partnumber;
-        cout << ". price :$" << cost;
+        strcpy (str, s);            //конструктор с одним параметром
+    }
+    void display()
+    {
+        cout << str;
+    }
+    void concat(String s2)
+    {
+        if(strlen(str) + strlen(s2.str) < SZ)
+            strcat(str, s2.str);
+        else {
+            cout << "/nOverflow";
+        }
     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    part part1, part2;
-    part1.setpart("gear", 101, 0.11 );
-    part2.setpart("lever", 399, 1);
-    cout << "\nRecord #1: "; part1.showpart();
-    cout << "\nRecord #2: "; part2.showpart();
+    String s1 ("Happy Hanooka!");
+    String s2 = "mein untermensch";
+    String s3;
+    cout << "\ns1="; s1.display();
+    cout << "\ns2="; s2.display();
+    cout << "\ns3="; s3.display();
+
+    s3 = s1;
+    cout << "\ns3="; s3.display();
+    s3.concat(s2);
+    cout << "\ns3="; s3.display();
     cout << endl;
     return a.exec();
 }
