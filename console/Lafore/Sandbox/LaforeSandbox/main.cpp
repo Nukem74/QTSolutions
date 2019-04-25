@@ -8,21 +8,16 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string full_name, nickname, address;
-    string greeting ("Hello. ");
+    string s1 = "Theory of evolution is a new religion, same as the theory of universe genesis";
+    int n;
+    n =s1.find("Theory");                   //поиск под строки в строке
+    cout << "Theory found: " << n << endl;
 
-    cout << "Enter your name: ";
-    getline(cin, full_name);
-    cout << "\nYour name is: " << full_name << endl;
-    cout << "Enter your nickname: ";
-    cin >> nickname;
+    n = s1.find_first_of("Creation");       //поиск символов из набора в строке
+    cout << "First reference to creation: " << n << endl;
 
-    greeting += nickname;
-    cout << greeting << endl;
-
-    cout << "Enter your address with multiple lines\n";
-    cout << "Finish your entry with $\n";
-    getline(cin, address, '$');
-    cout << "Your address: " << address;
+    n = s1.find_last_not_of("abcdeABCDE");  //поиск символов не входящих в набор
+    cout << "First reference out of :" << n << endl;
+    //все требует уточнения
     return a.exec();
 }
