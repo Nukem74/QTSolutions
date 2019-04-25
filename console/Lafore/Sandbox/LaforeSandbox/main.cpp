@@ -8,16 +8,22 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string s1 = "Theory of evolution is a new religion, same as the theory of universe genesis";
-    int n;
-    n =s1.find("Theory");                   //поиск под строки в строке
-    cout << "Theory found: " << n << endl;
+    string s1("Let it go and calm down, since everyone's fine with it");
+    string s2("Fight");
+    string s3("hate");
 
-    n = s1.find_first_of("Creation");       //поиск символов из набора в строке
-    cout << "First reference to creation: " << n << endl;
+    s1.erase(0, 8);                         //удалить фрагмент из строки начинающий на позиции 0 и имеющий длину 8 символов
+    s1.replace(s1.find("fine"), 9, s3);     //заменить фрагмент в строке, позиция которого вычислена с помощью метода find, длинной 9 символов на значение переменной s3
+    s1.insert(0, s2);                       //вставить фрагмент в позицию 0б значение которого хранится в s2
+    s1.erase(s1.find("calm down"), 9);      //стереть фрагмент на позиции определенной с помощью метода find длинной 8 символов
+    s1.append(3, '!');                      //добавить в конце строки символ ! в количестве 3 штук
 
-    n = s1.find_last_not_of("abcdeABCDE");  //поиск символов не входящих в набор
-    cout << "First reference out of :" << n << endl;
-    //все требует уточнения
+    int x = s1.find(' ');
+    while(x < sizeof (s1))
+    {
+        s1.replace(x, 1, "/");              //заменить пробелы на левый слэш
+        x = s1.find(' ');
+    }
+    cout << "s1: " << s1 << endl;
     return a.exec();
 }
