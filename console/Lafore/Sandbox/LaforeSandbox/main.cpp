@@ -8,10 +8,16 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    char str1[] = "One ring to rule them all";
-    const int MAX = 80;
-    char str2[MAX];
-    strcpy(str2, str1);                         //функция копирования строки
-    cout << str2 << endl;
+    const int DAYS = 7;
+    const int MAX = 12;
+
+    char star[DAYS][MAX] =                      //объявление массива строк
+    {
+        "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+    };
+    for(int j = 0; j < DAYS; j++)
+    {
+        cout << star[j] << endl;                //получение доступа к строке из массива строк выглядит как получение доступа к элементу одномерного массива, для этого используется первый индекс
+    }
     return a.exec();
 }
