@@ -9,38 +9,23 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string aName = "John";
-    string userName;
-    cout << "Enter your name: ";
-    getline(cin, userName);
-    if( userName == aName)
+
+    char chararray[80];
+    string word;
+
+    cout << "Enter word: ";
+    cin >> word;
+    int wlen = word.length();
+    cout << "By single letters: ";
+    for(int j = 0;j < wlen;j++)
     {
-        cout << "\nHello" << aName;
-    }
-    else if (userName < aName)
-    {
-        cout << "\nYour name before John";
-    }
-    else
-    {
-        cout << "\n Your name after John";
+        cout << '\n' << word.at(j);
+        //cout << word[j];
     }
 
-    int n = userName.compare(0,2,aName, 0, 2);
-    cout << "\nFirst two letters of your name ";
-    if(n == 0)
-    {
-        cout << "match";
-    }
-    else if( n < 0 )
-    {
-        cout << "goes before ";
-    }
-    else
-    {
-        cout << "goes after ";
-    }
-    cout << aName.substr(0, 2) << endl;
+    word.copy(chararray, wlen, 0);
+    chararray[wlen] = 0;
+    cout << "\nArray contains: " << chararray << endl;
 
 
     return a.exec();
