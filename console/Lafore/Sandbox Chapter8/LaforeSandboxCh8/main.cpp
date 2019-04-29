@@ -28,9 +28,21 @@ public:
     {
         cout << feet << "\'-" << inches << '\"';
     }
-    Distance operator + (Distance)const;
+    Distance operator + (Distance)const;            //переопределение операторов
     bool operator < (Distance) const;
+    void operator += (Distance);              //внимание! Лафоре в своем примере по переопределению оператора "+=" объявляет этот оператор постоянным! это недопустимо, так как действие оператора подразумевает изменение приватных полей объекта его вызывающего
 };
+
+void Distance::operator+=(Distance d2)
+{
+    feet += d2.feet;
+    inches += d2.inches;
+    if( inches >= 12.0)
+    {
+         inches -= 12.0;
+         feet++;
+    }
+}
 
 bool Distance::operator < (Distance d2) const
 {
@@ -69,7 +81,7 @@ int main(int argc, char *argv[])
     dist1.getdist();
     Distance dist2(11, 6.25);
     dist3 = dist1 + dist2;
-    dist4 = dist1 + dist2 + dist3;
+    dist4 += dist3;
 
     cout << "dist1 = ";
     dist1.showdist();
