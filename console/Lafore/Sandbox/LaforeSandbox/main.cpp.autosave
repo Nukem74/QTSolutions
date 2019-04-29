@@ -1,0 +1,33 @@
+#include <QCoreApplication>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    string city;
+    
+    char chararray[80];
+    string word;
+
+    cout << "Enter word: ";
+    cin >> word;
+    int wlen = word.length();
+    cout << "By single letters: ";
+    for(int j = 0;j < wlen;j++)
+    {
+        cout << '\n' << word.at(j);
+        //cout << word[j];
+    }
+
+    word.copy(chararray, wlen, 0);
+    chararray[wlen] = 0;
+    cout << "\nArray contains: " << chararray << endl;
+
+
+    return a.exec();
+}
