@@ -1,73 +1,59 @@
-//перегрузка оператора []
-//подготовка класса safearray
 #include <QCoreApplication>
 #include <iostream>
 #include <process.h>
 using namespace std;
 
-const int LIMIT = 100;                      //максимальный размер массива
-
-class safearray
+class Distance
 {
-private:                                    //приватное поле, содержащее целочисленный массив максимального размера
-    int arr[LIMIT];
+private:
+    const float MTF;
+    int feet;
+    float inches;
 public:
-    int& operator[](int n)                  //перегрузка оператора []
+    Distance(): feet(0), inches(0.0), MTF (3.280833F)
     {
-        if(n < 0 || n >= LIMIT)
-        {
-            cout << "\nWrong index ";
-            exit(1);
-        }
-        return arr[n];
+        //empty
     }
-    /*int& access(int n)                      //метод обеспечения доступа по ссылке
+    Distance(float meters): MTF (3.280833F)         //конструктор с одним аргументом служащий для преобразования float->Distance
     {
-        if(n < 0 || n >= LIMIT)
-        {
-            cout << "\nWrong index! ";
-            exit(1);
-        }
-        return arr[n];
-    }*/
-    /*void putel(int n, int elvalue)          //публичный метод с двумя аргументами и изменяющий значения элементов приватного массива
-    {
-        if(n < 0 || n >= LIMIT)
-        {
-            {
-                cout << "\nWrong index!";
-                exit(1);
-            }
-
-        }
-        arr[n] = elvalue;
+        float fltfeet = MTF * meters;
+        feet = int(fltfeet);
+        inches = 12 * (fltfeet - feet);
     }
-    int getel(int n)const                   //публичный метод с одним аргументом возвращающий значение элемента приватного массива по его номеру
+    Distance(int ft, float in): feet(ft), inches(in), MTF (3.280833F)
     {
-        if(n < 0 || n >= LIMIT)
-        {
-            {
-                cout << "\nWrong index!";
-                exit(1);
-            }
-
-        }
-        return arr[n];
-    }*/
+        //empty
+    }
+    void getdist()
+    {
+        cout << "\nEnter feet ";
+        cin >> feet;
+        cout << "\nEnter inches: ";
+        cin >> inches;
+    }
+    void showdist()
+    {
+        cout << feet << "\'-" << inches << '\"';
+    }
+    operator float() const                      //преобразование Distance ->float
+    {
+        float fracfeet = inches / 12;
+        fracfeet += static_cast<float>(feet);
+        return fracfeet / MTF;
+    }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    safearray sal;                      //инициализация массива
-    for(int i = 0; i < LIMIT; i++)
-    {
-        sal[i] = i * 10;           //заполнение массива
-    }
-    for (int i = 0; i < LIMIT;i++)
-    {
-        int temp = sal[i];
-        cout << "Element " << i << "is" << temp << endl;        //отображение массива
-    }
+    float mtrs;
+    Distance dist1 = 2.35F;
+    cout << "\ndist1 = ";
+    dist1.showdist();
+    mtrs = static_cast<float>(dist1);
+    cout << "\ndist1 = " << mtrs << "meters\n";
+    Distance dist2 (5, 10.25);
+    mtrs = dist2;
+    cout << "\ndist2 =" << mtrs << " meters\n";
     return a.exec();
 }
