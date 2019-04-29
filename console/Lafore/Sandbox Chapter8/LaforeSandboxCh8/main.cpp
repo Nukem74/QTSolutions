@@ -3,52 +3,67 @@
 
 using namespace std;
 
-class Counter
+class Distance
 {
 private:
-    unsigned int count;
+    int feet;
+    float inches;
 public:
-    Counter():count(0)
+    Distance(): feet(0), inches(0)
     {
         //empty
     }
-    Counter(int c) : count (c)
+    Distance(int ft, float in): feet(ft), inches(in)
     {
         //empty
     }
-    unsigned int get_count()
+    void getdist()
     {
-        return count;
+        cout << "\nEnter feet: ";
+        cin >> feet;
+        cout << "\nEnter inches: ";
+        cin >> inches;
     }
-    Counter operator ++()                  //ключевое слово оператор позволяет перегрузить(что бы вы думали?) стандартные операторы С++
+    void showdist()
     {
-        return Counter(++count);              //реализация создания копии объекта
-        /*Counter temp;
-        temp.count = count;
-        return temp;*/
+        cout << feet << "\'-" << inches << '\"';
     }
-    Counter operator ++(int)                    //указанный в скобках тип данных нужен для обозначения постфиксной операции
-    {
-        return Counter(count++);
-    }
+    Distance operator + (Distance)const;
 };
+
+Distance Distance::operator+( Distance d2) const        //переопределение бинарного оператора сложения
+{
+    int f = feet +d2.feet;
+    float i = inches + d2.inches;
+    if( i >= 12.0)
+    {
+         i -= 12.0;
+         f++;
+    }
+    return Distance(f, i);
+}
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Counter c1, c2;
-    cout << "\nc1 = " << c1.get_count();
-    cout << "\nc2 = " << c2.get_count();
+    Distance dist1, dist3, dist4;
+    dist1.getdist();
+    Distance dist2(11, 6.25);
+    dist3 = dist1 + dist2;
+    dist4 = dist1 + dist2 + dist3;
 
-    ++c1;
-    /*++c2;
-    ++c2;*/
-    c2 = ++c1;
+    cout << "dist1 = ";
+    dist1.showdist();
+    cout << endl;
+    cout << "dist2 = ";
+    dist2.showdist();
+    cout << endl;
+    cout << "dist3 = ";
+    dist3.showdist();
+    cout << endl;
+    cout << "dist4 = ";
+    dist4.showdist();
+    cout << endl;
 
-    cout << "\nc1 = " << c1.get_count();
-    cout << "\nc2 = " << c2.get_count();
-    c2 = c1++;                              //Важно! Значение C1 увеличивается, но переменной С2 присваивается значение переменной С1 до её увеличения
-    cout << "\nc1 = " << c1.get_count();
-    cout << "\nc2 = " << c2.get_count();
     return a.exec();
 }
