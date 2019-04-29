@@ -9,7 +9,7 @@ private:
     int feet;
     float inches;
 public:
-    Distance(): feet(0), inches(0)
+    Distance(): feet(0), inches(0.0)
     {
         //empty
     }
@@ -29,7 +29,20 @@ public:
         cout << feet << "\'-" << inches << '\"';
     }
     Distance operator + (Distance)const;
+    bool operator < (Distance) const;
 };
+
+bool Distance::operator < (Distance d2) const
+{
+    float bf1 = feet + inches / 12;
+    float bf2 = d2.feet + d2.inches / 12;
+    return (bf1 < bf2) ? true : false;
+}
+/*
+Переопределенный оператор "<" вызывается объектом класса Distance
+принимает в себя другой объект класса Distance
+и возвращает значение типа bool
+*/
 
 Distance Distance::operator+( Distance d2) const        //переопределение бинарного оператора сложения
 {
@@ -42,6 +55,12 @@ Distance Distance::operator+( Distance d2) const        //переопредел
     }
     return Distance(f, i);
 }
+
+/*
+Переопределенный оператор "+" вызывается объектом класса Distance,
+принимает в себя другой объект класса Distance
+и возвращает третий -  безымянный объект класса Distance
+*/
 
 int main(int argc, char *argv[])
 {
@@ -63,6 +82,13 @@ int main(int argc, char *argv[])
     cout << endl;
     cout << "dist4 = ";
     dist4.showdist();
+    cout << endl;
+    if(dist1 < dist2)
+        cout << "\ndist1 lesser then dist2";
+    else
+    {
+        cout << "\ndist1 larger then dist2";
+    }
     cout << endl;
 
     return a.exec();
