@@ -27,10 +27,20 @@ public:
 class CountDn: public Counter           //определение класса-наследника с указанием предка
 {
 public:
-    Counter operator--()
+    CountDn() : Counter ()              //конструктор наследника, вызывающий конструктор предка без аргументов
     {
-        return Counter( --count);
+        //empty
     }
+    CountDn(int c) : Counter(c)         //конструктор наследника, вызывающий конструктор предка передавая ему один аргумент
+    {
+        //empty
+    }
+    CountDn operator--()
+    {
+        return CountDn( --count);
+    }
+
+
 };
 
 
@@ -38,13 +48,17 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     CountDn c1;
+    CountDn c2 (100);
     cout << "\n c1=" << c1.get_count() << endl;
+    cout << "\n c2=" << c2.get_count() << endl;
     ++c1;
     ++c1;
     ++c1;
     cout << "\n c1=" << c1.get_count() <<  endl;
-    --c1;
-    --c1;
-    cout << "\n c1=" << c1.get_count() <<  endl;
+    --c2;
+    --c2;
+    cout << "\n c2=" << c2.get_count() <<  endl;
+    CountDn c3 = --c2;
+    cout << "\n c3=" << c3.get_count() << endl;
     return a.exec();
 }
