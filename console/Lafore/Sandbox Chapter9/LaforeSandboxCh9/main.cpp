@@ -3,7 +3,7 @@
 using namespace std;
 class Counter
 {
-protected:
+protected:                          //перечисление защищенных членов класса, доступных для этого класса и любого его наследника
     unsigned int count;
 public:
     Counter(): count(0)
