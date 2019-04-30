@@ -2,63 +2,84 @@
 #include <iostream>
 #include <process.h>
 using namespace std;
-
-class Stack
+enum posneg {pos, neg};
+class Distance
 {
 protected:
-    enum {MAX = 3};
-    int st[MAX];
-    int top;
+    int feet;
+    float inches;
 public:
-    Stack()
+    Distance(): feet(0), inches(0.0)
     {
-        top = -1;
+        //empty
     }
-    void push(int var)
+    Distance(int ft, float in): feet(ft), inches(in)
     {
-        st[++top] = var;
+        //empty
     }
-    int pop ()
+    void getdist()
     {
-        return st[top--];
+        cout <<"\n Enter feet: ";
+        cin >> feet;
+        cout << "\n Enter inches: ";
+        cin >> inches;
+    }
+    void showdist()const
+    {
+        cout << feet << "\'" << inches << '\"' << endl;
     }
 };
 
-class Stack2: public Stack
+class DistSign: public Distance
 {
+private:
+    posneg sign;
 public:
-    void push(int var)
+    DistSign():Distance()
     {
-        if(top >= MAX-1)
-        {
-            cout << "\n Error: stack full" << endl;
-            exit(1);
-        }
-        Stack::push(var);
+        sign = pos;
     }
-    int pop()
+    DistSign(int ft, float in = 7.0, posneg sg = pos): Distance (ft, in)
     {
-        if (top < 0)
-        {
-            cout << "\nError: stack empty" << endl;
-            exit(1);
-        }
-        return Stack::pop();
+        sign = sg;
+    }
+    /*
+    В конструкторе с 3-мя аргументами два аргумента указаны по умолчанию
+    то есть являются не обязательными
+    Важно именно то, что я совершенно забыл об этой детали синтаксиса
+    и сейчас напоминаю себе
+    */
+    void getdist()
+    {
+        Distance::getdist();
+        char ch;
+        cout << "Enter sign (+ or -): ";
+        cin >> ch;
+        sign = (ch == '+') ? pos : neg;
+    }
+    void showdist()const
+    {
+        cout << ((sign == pos) ? "+" : "-");
+        Distance::showdist();
     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Stack2 s1;
-    s1.push(11);
-    s1.push(22);
-    s1.push(33);
+    DistSign alpha;
+    alpha.getdist();
 
-    cout << endl << s1.pop();
-    cout << endl << s1.pop();
-    cout << endl << s1.pop();
-    cout << endl << s1.pop();
+    DistSign beta (11);
+
+    DistSign gamma (100, 5.5, neg);
+
+    cout << "\nA = ";
+    alpha.showdist();
+    cout << "\nB = ";
+    beta.showdist();
+    cout << "\nC = ";
+    gamma.showdist();
     cout << endl;
     return a.exec();
 }
