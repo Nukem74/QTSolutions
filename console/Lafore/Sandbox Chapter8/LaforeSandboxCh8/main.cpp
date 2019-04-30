@@ -1,59 +1,42 @@
 #include <QCoreApplication>
 #include <iostream>
-#include <process.h>
+#include <string.h>
 using namespace std;
 
-class Distance
+class String
 {
 private:
-    const float MTF;
-    int feet;
-    float inches;
+    enum {SZ = 80};
+    char str[SZ];
 public:
-    Distance(): feet(0), inches(0.0), MTF (3.280833F)
+    String()
     {
-        //empty
+        str[0] = '\x0';
     }
-    Distance(float meters): MTF (3.280833F)         //конструктор с одним аргументом служащий для преобразования float->Distance
+    String (char s [])
     {
-        float fltfeet = MTF * meters;
-        feet = int(fltfeet);
-        inches = 12 * (fltfeet - feet);
+        strcpy (str, s);
     }
-    Distance(int ft, float in): feet(ft), inches(in), MTF (3.280833F)
+    void display() const
     {
-        //empty
+        cout << str;
     }
-    void getdist()
+    operator char*()
     {
-        cout << "\nEnter feet ";
-        cin >> feet;
-        cout << "\nEnter inches: ";
-        cin >> inches;
-    }
-    void showdist()
-    {
-        cout << feet << "\'-" << inches << '\"';
-    }
-    operator float() const                      //преобразование Distance ->float
-    {
-        float fracfeet = inches / 12;
-        fracfeet += static_cast<float>(feet);
-        return fracfeet / MTF;
+        return str;
     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    float mtrs;
-    Distance dist1 = 2.35F;
-    cout << "\ndist1 = ";
-    dist1.showdist();
-    mtrs = static_cast<float>(dist1);
-    cout << "\ndist1 = " << mtrs << "meters\n";
-    Distance dist2 (5, 10.25);
-    mtrs = dist2;
-    cout << "\ndist2 =" << mtrs << " meters\n";
+    String s1;
+    char xstr[] = "Hooray! Hooray! It's a holy-holiday";
+    s1 = xstr;
+    s1.display();
+    String s2 = "We are the champions!";
+
+    cout << static_cast<char*>(s2);
+    cout << endl;
     return a.exec();
 }
