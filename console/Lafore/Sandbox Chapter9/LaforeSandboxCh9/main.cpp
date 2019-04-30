@@ -1,64 +1,64 @@
 #include <QCoreApplication>
 #include <iostream>
+#include <process.h>
 using namespace std;
-class Counter
+
+class Stack
 {
-protected:                          //перечисление защищенных членов класса, доступных для этого класса и любого его наследника
-    unsigned int count;
+protected:
+    enum {MAX = 3};
+    int st[MAX];
+    int top;
 public:
-    Counter(): count(0)
+    Stack()
     {
-        //empty
+        top = -1;
     }
-    Counter(int c) : count (c)
+    void push(int var)
     {
-        //empty
+        st[++top] = var;
     }
-    unsigned int get_count() const
+    int pop ()
     {
-        return count;
-    }
-    Counter operator++ ()
-    {
-        return Counter (++count);
+        return st[top--];
     }
 };
 
-class CountDn: public Counter           //определение класса-наследника с указанием предка
+class Stack2: public Stack
 {
 public:
-    CountDn() : Counter ()              //конструктор наследника, вызывающий конструктор предка без аргументов
+    void push(int var)
     {
-        //empty
+        if(top >= MAX-1)
+        {
+            cout << "\n Error: stack full" << endl;
+            exit(1);
+        }
+        Stack::push(var);
     }
-    CountDn(int c) : Counter(c)         //конструктор наследника, вызывающий конструктор предка передавая ему один аргумент
+    int pop()
     {
-        //empty
+        if (top < 0)
+        {
+            cout << "\nError: stack empty" << endl;
+            exit(1);
+        }
+        return Stack::pop();
     }
-    CountDn operator--()
-    {
-        return CountDn( --count);
-    }
-
-
 };
-
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    CountDn c1;
-    CountDn c2 (100);
-    cout << "\n c1=" << c1.get_count() << endl;
-    cout << "\n c2=" << c2.get_count() << endl;
-    ++c1;
-    ++c1;
-    ++c1;
-    cout << "\n c1=" << c1.get_count() <<  endl;
-    --c2;
-    --c2;
-    cout << "\n c2=" << c2.get_count() <<  endl;
-    CountDn c3 = --c2;
-    cout << "\n c3=" << c3.get_count() << endl;
+    Stack2 s1;
+    s1.push(11);
+    s1.push(22);
+    s1.push(33);
+
+    cout << endl << s1.pop();
+    cout << endl << s1.pop();
+    cout << endl << s1.pop();
+    cout << endl << s1.pop();
+    cout << endl;
     return a.exec();
 }
