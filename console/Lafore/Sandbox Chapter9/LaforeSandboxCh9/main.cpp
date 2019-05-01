@@ -2,84 +2,95 @@
 #include <iostream>
 #include <process.h>
 using namespace std;
-enum posneg {pos, neg};
-class Distance
+
+const int LEN = 80;
+
+class employee                                  //объявление класса
 {
-protected:
-    int feet;
-    float inches;
-public:
-    Distance(): feet(0), inches(0.0)
+private:                                        //перечисление приватных членов
+    char name[LEN];
+    unsigned long number;
+public:                                         //перечисление публичных членов
+    void getdata()
     {
-        //empty
+        cout << "\n State sescond name: ";
+        cin >> name;
+        cout << "\n State ID: ";
+        cin >> number;
     }
-    Distance(int ft, float in): feet(ft), inches(in)
+    void putdata ()const
     {
-        //empty
-    }
-    void getdist()
-    {
-        cout <<"\n Enter feet: ";
-        cin >> feet;
-        cout << "\n Enter inches: ";
-        cin >> inches;
-    }
-    void showdist()const
-    {
-        cout << feet << "\'" << inches << '\"' << endl;
+        cout << "\n Second name: " << name;
+        cout << "\nID: " << number;
     }
 };
 
-class DistSign: public Distance
+class manager : public employee                 //объявление наследуемого класса с доступом к публичным членам предка
 {
-private:
-    posneg sign;
+private:                                        //перечисление приватных членов
+    char title[LEN];
+    double dues;
 public:
-    DistSign():Distance()
+    void getdata()                              //перегрузка метода базового класса
     {
-        sign = pos;
+        cout << "\nManagement staff";
+        employee::getdata();
+        cout << "\n State title: ";
+        cin >> title;
+        cout << "\n Designate dues: ";
+        cin >> dues;
     }
-    DistSign(int ft, float in = 7.0, posneg sg = pos): Distance (ft, in)
+    void putdata()const                         //перегрузка метода базового класса
     {
-        sign = sg;
+        employee::putdata();
+        cout << "\n Title: " << title;
+        cout << "\n Golf-club dues paid: " << dues;
     }
-    /*
-    В конструкторе с 3-мя аргументами два аргумента указаны по умолчанию
-    то есть являются не обязательными
-    Важно именно то, что я совершенно забыл об этой детали синтаксиса
-    и сейчас напоминаю себе
-    */
-    void getdist()
+
+};
+class scientist:public employee                 //объявление наследуемого класса с доступом к публичным членам предка
+{
+private:                                        //перечисление приватных членов
+    int pubs;
+public:                                         //перечисление публичных членов
+    void getdata()                              //перегрузка метода базового класса
     {
-        Distance::getdist();
-        char ch;
-        cout << "Enter sign (+ or -): ";
-        cin >> ch;
-        sign = (ch == '+') ? pos : neg;
+        cout << "\nDeveloping staff";
+        employee::getdata();
+        cout << "\n Designate publications index: ";
+        cin >> pubs;
     }
-    void showdist()const
+    void putdata()const                         //перегрузка метода базового класса
     {
-        cout << ((sign == pos) ? "+" : "-");
-        Distance::showdist();
+        employee::putdata();
+        cout << "\n Publications index: " << pubs;
     }
+};
+
+class laborer: public employee                  //объявление наследуемого класса с доступом к публичным членам предка
+{
+public:                                         //перечисление публичных членов
+    void getdata()                              //перегрузка метода базового класса
+    {
+        cout << "\nCOMRADE";
+        employee::getdata();
+    }/*Empty inherited class for laborer?! SJW triggered*/
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    DistSign alpha;
-    alpha.getdist();
+    manager m1, m2;
+    scientist s1;
+    laborer l1;
 
-    DistSign beta (11);
-
-    DistSign gamma (100, 5.5, neg);
-
-    cout << "\nA = ";
-    alpha.showdist();
-    cout << "\nB = ";
-    beta.showdist();
-    cout << "\nC = ";
-    gamma.showdist();
-    cout << endl;
+    m1.getdata();
+    m2.getdata();
+    s1.getdata();
+    l1.getdata();
+    m1.putdata();
+    m2.putdata();
+    l1.putdata();
+    s1.putdata();
     return a.exec();
 }
