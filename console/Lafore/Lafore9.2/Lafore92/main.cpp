@@ -99,6 +99,22 @@ public:                                         //перечисление пу�
     }
 };
 
+class disk: public publication
+{
+private:
+    string format;
+public:
+    void set()
+    {
+        cout << "State format(CD/DVD): ";
+        cin >> format;
+    }
+    void get()
+    {
+        cout << "Publication recorded at ";
+        cout << format;
+    }
+};
 
 int main(int argc, char *argv[])
 {
