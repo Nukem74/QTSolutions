@@ -1,0 +1,113 @@
+#include <QCoreApplication>
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Type                                                      //объявление класса   
+{
+private:                                                        //объявление приватных членов
+    string dimensions;
+    string grade;
+public:                                                         // объявление публичных членов
+    Type():dimensions ("N/A"), grade ("N/A")                    //конструктор без аргументов
+    {
+        //empty
+    }
+    Type(string di, string gr): dimensions( di ), grade(gr)     //конструктор с 2 аргументами
+    {
+        //empty
+    }
+    void gettype()                                              //публичный метод без аргументов
+    {
+        cout << "\nEnter nominals: ";
+        cin >> dimensions;
+        cout << "\n Enter grade: ";
+        cin >> grade;
+    }
+    void showtype()const                                        //публичный константный метод без аргументов
+    {
+        cout << "\n Size: " << dimensions;
+        cout << "\n Grade: " << grade;
+    }
+};
+
+class Distance                                                  //объявление класса
+{
+private:                                                        //объявление приватных членов
+    int feet;                           
+    float inches;
+public:                                                         //объявление публичных членов
+    Distance(): feet(0), inches(0.0)                            //конструктор без аргументов
+    {
+        //empty
+    }
+    Distance(int ft, float in): feet(ft), inches(in)            //конструктор с 2 аргументами
+    {
+        //empty
+    }
+    void getdist()                                              //публичный метод без аргументов
+    {
+        cout << " Enter feet: ";
+        cin >> feet;
+        cout << " Enter inches: ";
+        cin >> inches;
+    }
+    void showdist()const                                        //публичный константный метод без аргументов
+    {
+        cout << feet << "\'-" << inches << '\"';
+    }
+};
+
+class Lumber: public Type, public Distance                      //объявление класса наследующего от двух предков
+{
+private:                                                        //объявление приватных членов
+    int quantity;
+    double price;
+public:                                                         //объявление публичных членов
+    Lumber(): Type(), Distance(), quantity(0), price(0.0)       //конструктор без аргументов, вызывающий два конструктора предков, не передающий аргументы
+    {
+        //empty
+    }
+    Lumber(string di, string gr,                                //конструктор с 6 аргументами, вызывающий два конструктора предков и передающий им 4 аргумента
+           int ft, float in,
+           int qu, double prc) :
+           Type(di, gr),
+           Distance (ft, in),
+           quantity(qu),price(prc)
+    {
+        //empty
+    }
+    void getlumber()                                            //публичный метод без аргументов
+    {
+        Type::gettype();
+        Distance::getdist();                                    //вызов метода предка
+        cout << " Enter quantity: ";
+        cin >> quantity;
+        cout << "Enter price: ";
+        cin >> price;
+    }
+    void showlumber() const                                     //публичный метод без аргументов
+    {
+        Type::showtype();                                       //вызов метода предка
+        cout << "\n Length: ";
+        Distance::showdist();                                   //вызов метода предка
+        cout << "\n Price for " << quantity << "pieces:" << (price*quantity) << "$" << endl;
+    }
+};
+
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    Lumber siding;                                              //создание объекта с помощью конструктора без аргументов
+    cout << "\n Siding info: \n";
+    siding.getlumber();
+
+    Lumber studs("2x4", "const", 8, 0.0, 200, 4.45F);           //создание объекта с помощью конструкто
+
+    cout << "\nSiding";
+    siding.showlumber();
+    cout << "\nStuds";
+    studs.showlumber();
+    cout << endl;
+    return a.exec();
+}
