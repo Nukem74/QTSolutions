@@ -1,143 +1,113 @@
 #include <QCoreApplication>
 #include <iostream>
-#include <process.h>
+#include <string>
 using namespace std;
 
-const int LEN = 80;
-
-class student                                   //объявление класса
-{
-private:                                        //перечисление приватных членов
-    char school[LEN];
-    char degree[LEN];
-public:
-    void getedu()                               //перечисление публичных членов
-    {
-        cout << "State school: ";
-        cin >> school;
-        cout << "Designate degree: ";
-        cin >> degree;
-    }
-    void putedu () const
-    {
-        cout << "\n Graduated from " << school;
-        cout << " with " << degree << "degree";
-    }
-};
-
-class employee                                  //объявление класса
-{
-private:                                        //перечисление приватных членов
-    char name[LEN];
-    unsigned long number;
-public:                                         //перечисление публичных членов
-    void getdata()
-    {
-        cout << "\n State second name: ";
-        cin >> name;
-        cout << "\n State ID: ";
-        cin >> number;
-    }
-    void putdata ()const
-    {
-        cout << "\n Second name: " << name;
-        cout << "\nID: " << number;
-    }
-};
-
-class manager : private employee, private student                 //объявление класса-наследника с доступом к публичным членам предка
-{
-private:                                        //перечисление приватных членов
-    char title[LEN];
-    double dues;
-public:
-    void getdata()                              //перегрузка метода базового класса
-    {
-        cout << "\nManagement staff";
-        employee::getdata();
-        student::getedu();
-        cout << "\n State title: ";
-        cin >> title;
-        cout << "\n Designate dues: ";
-        cin >> dues;
-    }
-    void putdata()const                         //перегрузка метода базового класса
-    {
-        employee::putdata();
-        student::putedu();
-        cout << "\n Title: " << title;
-        cout << "\n Golf-club dues paid: " << dues;
-    }
-
-};
-class scientist: private employee, private student                 //объявление класса-наследника с доступом к публичным членам предка
-{
-private:                                        //перечисление приватных членов
-    int pubs;
-public:                                         //перечисление публичных членов
-    void getdata()                              //перегрузка метода базового класса
-    {
-        cout << "\nDeveloping staff";
-        employee::getdata();
-        student::getedu();
-        cout << "\n Designate publications index: ";
-        cin >> pubs;
-    }
-    void putdata()const                         //перегрузка метода базового класса
-    {
-        employee::putdata();
-        student::putedu();
-        cout << "\n Publications index: " << pubs;
-    }
-};
-
-class laborer: public employee                  //объявление класса-наследника с доступом к публичным членам предка
-{
-public:                                         //перечисление публичных членов
-    void getdata()                              //перегрузка метода базового класса
-    {
-        cout << "\nCOMRADE";
-        employee::getdata();
-    }/*Empty inherited class for laborer?! SJW triggered*/
-};
-
-class foreman: public laborer                   //объявление класса-наследника второго порядка с доступом к публичным членам предка
+class Type
 {
 private:
-    float quotas;
+    string dimensions;
+    string grade;
 public:
-    void getdata()
+    Type():dimensions ("N/A"), grade ("N/A")
     {
-
-        laborer::getdata();
-        cout << " FOREMAN";
-        cout << "/nDesignate quote: ";
-        cin >> quotas;
+        //empty
     }
-    void putdata() const
+    Type(string di, string gr): dimensions( di ), grade(gr)
     {
-        laborer::putdata();
-        cout << "\n Quote: ";
+        //empty
+    }
+    void gettype()
+    {
+        cout << "\nEnter nominals: ";
+        cin >> dimensions;
+        cout << "\n Enter grade: ";
+        cin >> grade;
+    }
+    void showtype()const
+    {
+        cout << "\n Size: " << dimensions;
+        cout << "\n Grade: " << grade;
+    }
+};
+
+class Distance
+{
+private:
+    int feet;
+    float inches;
+public:
+    Distance(): feet(0), inches(0.0)
+    {
+        //empty
+    }
+    Distance(int ft, float in): feet(ft), inches(in)
+    {
+        //empty
+    }
+    void getdist()
+    {
+        cout << " Enter feet: ";
+        cin >> feet;
+        cout << " Enter inches: ";
+        cin >> inches;
+    }
+    void showdist()const
+    {
+        cout << feet << "\-" << inches << '\"';
+    }
+};
+
+class Lumber: public Type, public Distance
+{
+private:
+    int quantity;
+    double price;
+public:
+    Lumber(): Type(), Distance(), quantity(0), price(0.0)
+    {
+        //empty
+    }
+    Lumber(string di, string gr,
+           int ft, float in,
+           int qu, double prc) :
+           Type(di, gr),
+           Distance (ft, in),
+           quantity(qu),price(prc)
+    {
+        //empty
+    }
+    void getlumber()
+    {
+        Type::gettype();
+        Distance::getdist();
+        cout << " Enter quantity: ";
+        cin >> quantity;
+        cout << "Enter price: ";
+        cin >> price;
+    }
+    void showlumber() const
+    {
+        Type::showtype();
+        cout << "\n Length: ";
+        Distance::showdist();
+        cout << "\n Price for " << quantity << "pieces:" << (price*quantity) << "$" << endl;
     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    manager m1, m2;
-    scientist s1;
-    laborer l1;
-    foreman f1;
+    Lumber siding;
+    cout << "\n Siding info: \n";
+    siding.getlumber();
 
-    m1.getdata();
-    m2.getdata();
-    s1.getdata();
-    //l1.getdata();
-    //f1.getdata();
-    m1.putdata();
-    m2.putdata();
-    //f1.putdata();
-    //l1.putdata();
-    s1.putdata();
+    Lumber studs("2x4", "const", 8, 0.0, 200, 4.45F);
+
+    cout << "\nSiding";
+    siding.showlumber();
+    cout << "\nStuds";
+    studs.showlumber();
+    cout << endl;
     return a.exec();
 }
