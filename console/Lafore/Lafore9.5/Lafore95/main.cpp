@@ -4,6 +4,7 @@
 using namespace std;
 
 const int LEN = 80;
+enum period {hourly, weekly, monthly};
 
 class student                                   //объявление класса
 {
@@ -21,7 +22,7 @@ public:
     void putedu () const
     {
         cout << "\n Graduated from " << school;
-        cout << " with " << degree << "degree";
+        cout << " with " << degree << " degree";
     }
 };
 
@@ -49,18 +50,67 @@ class employee2: public employee
 {
 private:
     double compensation;
-    enum period {hourly , weekly , monthly};
+    char temp;
+    period per;
 public:
     void getdata()
     {
         employee::getdata();
-        cout << "Designate compensation: ";
+        cout << "\nDesignate compensation: ";
         cin >> compensation;
+        cout << "\nSelect period(h/w/m): ";
+        cin >> temp;
+        switch(temp)
+        {
+            case 'h':
+
+            {
+                cout << "\nYou selected hourly compensation.";
+                per = hourly;
+                break;
+            }
+            case 'w':
+            {
+                cout << "\nYou seelcted weekly compensation.";
+                per = weekly;
+                break;
+            }
+            case 'm':
+            {
+                cout << "\nYou selected monthly compensation.";
+                per = monthly;
+                break;
+            }
+            default:
+            {
+                cout << "\nWrong entry, monthly compensation selected ";
+                per = monthly;
+                break;
+            }
+        }
     }
     void putdata()const
     {
         employee::putdata();
-        cout << "Amount of compensation: " << compensation;
+        cout << "/nAmount of compensation: " << compensation << " per ";
+        switch (per)
+        {
+                case 0 :
+                {
+                    cout << " hour";
+                    break;
+                }
+                case 1:
+                {
+                    cout << " week";
+                    break;
+                }
+                case 2:
+                {
+                    cout << " month";
+                    break;
+                }
+        }
     }
 };
 
