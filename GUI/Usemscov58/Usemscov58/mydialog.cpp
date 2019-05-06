@@ -5,7 +5,8 @@
 const int MAXVAL = 99;
 const int MINVAL = 0;
 
-MyDialog::MyDialog():QDialog()
+MyDialog::MyDialog():QDialog()              //что это, ЮРА?! это конструктор? с доступом к классу MyDiaolog? Наследующий от класса QDialog?
+                                            //Я сам не знаю, только догадываюсь, так что лучше бы ты рассказал
 {
     m_sb = new QSpinBox(this);
     m_sb->setRange(MINVAL, MAXVAL);

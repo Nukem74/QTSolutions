@@ -5,16 +5,16 @@
 #include <QDial>
 #include <QSlider>
 #include <QProgressBar>
-class MyDialog : public QDialog
+class MyDialog : public QDialog         //объявление класса, наследующего от QDialog
 {
-    Q_OBJECT
-private:
+    Q_OBJECT                            //макрос обеспечивающий работу служб QT
+private:                                //перечисление приватных членов
     QSpinBox *m_sb;
     QDial *m_dial;
     QSlider *m_slider;
     QProgressBar *m_pb;
 
-public:
+public:                                 //перечисление публичных членов
     MyDialog();
 };
 
