@@ -4,11 +4,21 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    int var1, var2;                 //объявление переменных
-    int *ptr;                       //объявление указателя
-    ptr = &var1;                    //присваивание указателю адреса
-    *ptr = 37;                      //присваивание переменной, хранящейся по адресу значения
-    var2 = *ptr;                    //присваивание переменной значения, хранящегося по адресу
-    cout << var2 << endl;           //гордыня
+    int intvar;             //объявление переменных
+    float floatvar;
+
+    int *ptrint;            //объявление указателей
+    float *ptrfloat;
+    void *ptrvoid;
+
+    ptrint = &intvar;       //присвоение указателям адресов переменных
+    ptrfloat = &floatvar;
+
+    ptrvoid = &intvar;      //присвоение указателю на void адресов переменных
+    cout << ptrvoid;
+    ptrvoid = &intvar;
+    cout << ptrvoid;        //гордыня
+
+
     return a.exec();
 }
