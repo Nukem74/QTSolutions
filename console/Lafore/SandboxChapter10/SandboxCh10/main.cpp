@@ -6,16 +6,18 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    char str1 [] = "Defining array";
-    char* str2 = "Defining pointer";
+    void dispstr(char*);                    //прототип функции с одним аргументом-указателем на char
+    char str[] = "Idlers always off";
 
-    cout << str1 << endl;
-    cout << str2 << endl;
+    dispstr(str);
 
-    //str1++;                           //unable to comply
-    str2++;
-
-    cout << str2 << endl;
     return a.exec();
+}
+
+void dispstr(char* ps)                      //функция с одним аргументом-указателем на char
+{
+    while(*ps)                              //условие выхода из цикла - достижение символа конца строки \0, который интерпретируется как false
+        cout << *ps++ << endl;              //отображение символа с последующим приращением указателя на величину char
+    cout << endl;
 }
 
