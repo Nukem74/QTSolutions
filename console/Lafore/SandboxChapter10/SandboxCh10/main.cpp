@@ -6,18 +6,18 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    void dispstr(char*);                    //прототип функции с одним аргументом-указателем на char
-    char str[] = "Idlers always off";
-
-    dispstr(str);
-
+    void copystr (char*, const char*);      //прототип функции с двумя аргументами-указателями указывающими на char и  на const char
+    char* str1 = "hurry funny";
+    char str2[80];
+    copystr(str2, str1);
+    cout << str2 << endl;
     return a.exec();
 }
 
-void dispstr(char* ps)                      //функция с одним аргументом-указателем на char
+void copystr(char* dest, const char* str)                      //функция с одним аргументом-указателем на char
 {
-    while(*ps)                              //условие выхода из цикла - достижение символа конца строки \0, который интерпретируется как false
-        cout << *ps++ << endl;              //отображение символа с последующим приращением указателя на величину char
-    cout << endl;
+    while(*str)                              //условие выхода из цикла - достижение символа конца строки \0, который интерпретируется как false
+        *dest++ = *str++;              //присвоение значению разыменованного указателя значения другого разыменованного указателя
+    *dest = '\0';
 }
 
