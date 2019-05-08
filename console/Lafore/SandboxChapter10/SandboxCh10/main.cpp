@@ -1,18 +1,21 @@
 #include <QCoreApplication>
 #include <iostream>
+#include <cstring>
 using namespace std;
-const int DAYS = 7;
+
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    char* arrptrs[DAYS] = {"Monday", "Tuesday", "Wednesday",
-                           "Thursday", "Friday", "Saturday",
-                           "Sunday"};                   //объявление массива указателей на тип char
-    for(int i = 0; i < DAYS; i++)
-    {
-        cout << &arrptrs[i] << arrptrs[i] << endl;      //отображение элементов массива указателей и их адресов
-    }
+    char* str = "No rest for the wicked";       //объявление указателя на тип char
+    //int len = strlen(str);
+
+    char* ptr = new char [strlen(str) + 1];     //определение указателя на тип char с выделением памяти, равно длине строки str
+                                                //но не ясно, что я приобретаю от выделения памяти. Как увидеть преимущество этого приема?
+    strcpy(ptr, str);
+    cout << "ptr = " << ptr << endl;
+
+    delete [] ptr;
     return a.exec();
 }
 
