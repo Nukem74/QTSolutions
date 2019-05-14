@@ -3,99 +3,91 @@
 #include <cstring>
 using namespace std;
 
-struct link                         //элемент списка
+class person                        //объявление класса
 {
-    int data;                       //целочисленное содержимое элемента
-    link* next;                     //указатель на тип link
-};
-
-class linklist                      //объявление класса
-{
-private:                            //перечисление приватных членов
-    link* first;
-public:                             //перечисление публичных членов
-    linklist()                      //конструктор без аргументов
+protected:                          //защищенные члены
+    string name;
+public:                             //публичные члены
+    void setName()                  //метод без аргументов устанавливающий значение защищенного поля
     {
-        first = NULL;
+        cout << "Enter name: ";
+        cin >> name;
     }
-
-    void addItem(int d)             //публичный метод с одним аргументом
+    void printName()                //метод без аргументов отображающий значение защищенного поля
     {
-        link* newlink = new link;   //создание экземпляра link по адресу указателя newlink
-        newlink->data = d;          //изменение содержимого link по адресу указателя
-        newlink->next = first;      //изменение элемента списка
-        first = newlink;
+        cout << endl << name;
     }
-
-    /*void remList()
+    string getName()                //метод без аргументов, возвращающий содержимое защищенного поля
     {
-        link* current = first;
-        link* temp = current;
-        do
-        {
-            temp = current->next;
-            current = NULL;
-            cout << current->data << endl;
-            current = temp;
-            cout << current->data << endl;
-            cout << endl;
-        }
-        while(current);
-    }*/
-
-    void display()                  // публичный метод без аргументов
-    {
-        link* current = first;
-        while(current)
-        {
-            cout << current->data << endl;
-            current = current->next;
-        }
+        return name;
     }
-    void display(int n)                  // публичный метод без аргументов
-    {
-        link* current = first;
-        while(current)
-        {
-            if(current->data == n)
-            {
-                cout << current->data << endl;
-            }
-            current = current->next;
-        }
-    }
-    void remItem(int n)
-    {
-        link* current = first;
-        while(current)
-        {
-            if(current->data == n)
-            {
-                delete current;
-            }
-            current = current->next;
-        }
-
-     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    linklist li;
+    void bsort(person**, int);      //прототип функции
+    person* persPtr [100];          //определение массива указателей на тип person
+    int n = 0;
+    char choice;
 
-    li.addItem(25);
-    li.addItem(36);
-    li.addItem(49);
-    li.addItem(64);
+    do                              //заполнение элементов массива
+    {
+        persPtr [n] = new person;
+        persPtr[n]->setName();
+        n++;
+        cout << "Continue? (y/n)";
+        cin >> choice;
 
-    li.remItem(49);
+    }
+    while(choice == 'y');
 
-    li.display();
+    cout << "\nUnsorted list: ";
+    for (int i = 0; i < n; i++)     //отображение элементов массива
+    {
+        persPtr[i]->printName();
+    }
+    cout << endl;
 
+    bsort(persPtr, n);              //сортировка
+
+    cout << "\nSorted list: ";      //отображение элементов массива
+    for(int i = 0; i < n; i++)
+    {
+        persPtr[i]->printName();
+    }
+    cout << endl;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return a.exec();
 }
 
+
+void bsort(person** pp, int n)      //определение функции с двумя аргументами
+{
+    void order(person**, person**); //прототип функции
+    /*
+     ** - обозначение указателя на указатель
+     необходимо для доступа к указанному элементу указанного массива
+    */
+    int i,j;
+    for(i = 0; i < n - 1; i++)
+    {
+        for(j = i + 1; j < n; j++)
+        {
+            order(pp +i, pp+j);
+        }
+    }
+}
+
+void order(person** pp1, person** pp2)//определение функции с двумя аргументами
+{
+    //сортировка
+    if( (*pp1)->getName() > (*pp2)->getName())
+    {
+        person* tempptr = *pp1;
+        *pp1 = *pp2;
+        *pp2 = tempptr;
+    }
+}
