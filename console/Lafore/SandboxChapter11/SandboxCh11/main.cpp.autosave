@@ -1,0 +1,86 @@
+#include <QCoreApplication>
+#include <iostream>
+using namespace std;
+
+class person                                        //объявление класса
+{
+protected:                                          //защищенные члены
+    char name[40];
+public:                                             //публичные члены
+    void getName()                                  //публичный метод без аргументов устанавливающий значение защищенного поля
+    {
+        cout << "Enter name: ";
+        cin >> name;
+    }
+    void putName()                                  //публичный метод без аргументов отображающий значение защищенного поля
+    {
+        cout << "Name: " << name << endl;
+    }
+    virtual void getData() = 0;                     //чистый виртуальный метод
+    virtual bool isOutstanding() = 0;               //чистый виртуальный метод
+
+};
+
+class student: public person                        //объявление класса-наследника
+{
+private:                                            //приватные члены
+    float gpa;
+public:                                             //публичные члены
+    void getData()                                  //публичный метод без аргументов, содержащий вызов метода базового класса
+    {
+        person::getName();
+        cout << "Graduating points average: ";
+        cin >> gpa;
+    }
+    bool isOutstanding()                            //публичный метод без аргументов
+    {
+        return(gpa > 3.5f) ? true : false;
+    }
+};
+
+class professor: public person                      //объявление класса-наследника
+{
+private:                                            //приватные члены
+    int numPubs;
+public:                                             //публичные члены
+    void getData()                                  
+    {
+        person::getName();
+        cout << "Publications number: ";
+        cin >> numPubs;
+    }
+    bool isOutstanding()                            //публичный метод без аргументов
+    {
+        return(numPubs > 100) ? true : false;
+    }
+};
+
+////////////////////////////////////////////////////////////
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+////////////////////////////////////////////////////////////
+    //Base bad;
+    person* persPTR[100];                           //создаем массив указателей на тип person
+    int n = 0;                                      //устанавливаем счетчик =0
+    char choice;                                    //объявляем переменную хранящую результат выбора
+    do
+    {
+        cout << "\nEnter data for student(S) or professor(P): ";
+        cin >> choice;
+        (choice == 'S') ? persPTR[n] = new student : persPTR[n] = new professor;
+                                                    //выделяем память в массиве указателей на выбранный пользователем объект
+        persPTR[n++]->getData();                    //вызываем виртуальный метод для обработки
+        cout << " more data?(y/n)";
+        cin >> choice;
+    }
+    while (choice == 'y');
+    for(int i = 0; i < n; i++)
+    {
+        persPTR[i]->putName();
+        if(persPTR[i]->isOutstanding())
+            cout << "is outastanding person!";
+    }
+////////////////////////////////////////////////////////////
+    return a.exec();
+}

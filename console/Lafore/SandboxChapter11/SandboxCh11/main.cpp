@@ -2,30 +2,56 @@
 #include <iostream>
 using namespace std;
 
-class Base                      //объявление класса
+class person
 {
-public:                         //публичные члены
-    virtual void show() = 0;    //чистый виртуальный метод
-    /*{
-        cout << "Base\n";
-    }*/
+protected:
+    char name[40];
+public:
+    void getName()
+    {
+        cout << "Enter name: ";
+        cin >> name;
+    }
+    void putName()
+    {
+        cout << "Name: " << name << endl;
+    }
+    virtual void getData() = 0;
+    virtual bool isOutstanding() = 0;
+
 };
 
-class Derv1 : public Base       //объявление класса
+class student: public person
 {
-public:                         //публичные члены
-    virtual void show()         //виртуальный метод
+private:
+    float gpa;
+public:
+    void getData()
     {
-        cout << "Dervl\n";
+        person::getName();
+        cout << "Graduating points average: ";
+        cin >> gpa;
+    }
+    bool isOutstanding()
+    {
+        return(gpa > 3.5f) ? true : false;
     }
 };
 
-class Derv2 : public Base       //объявление класса
+class professor: public person
 {
-public:                         //публичные члены
-    virtual void show()         //виртуальный метод
+private:
+    int numPubs;
+public:
+    void getData()
     {
-        cout << "Derv2\n";
+        person::getName();
+        cout << "Publications number: ";
+        cin >> numPubs;
+    }
+    bool isOutstanding()
+    {
+        return(numPubs > 100) ? true : false;
     }
 };
 
@@ -35,15 +61,25 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
     //Base bad;
-    Base* arr[2];
-    Derv1 dv1;
-    Derv2 dv2;
-
-    arr[0] = &dv1;
-    arr[1] = &dv2;
-
-    arr[0]->show();
-    arr[1]->show();
+    person* persPTR[100];
+    int n = 0;
+    char choice;
+    do
+    {
+        cout << "\nEnter data for student(S) or professor(P): ";
+        cin >> choice;
+        (choice == 'S') ? persPTR[n] = new student : persPTR[n] = new professor;
+        persPTR[n++]->getData();
+        cout << " more data?(y/n)";
+        cin >> choice;
+    }
+    while (choice == 'y');
+    for(int i = 0; i < n; i++)
+    {
+        persPTR[i]->putName();
+        if(persPTR[i]->isOutstanding())
+            cout << "is outastanding person!";
+    }
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
