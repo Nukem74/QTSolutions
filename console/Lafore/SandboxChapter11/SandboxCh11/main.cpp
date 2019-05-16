@@ -21,12 +21,12 @@ public:                                             //публичные чле�
     {
         cout << feet << "\'" << inches << '\"';
     }
-    float square();
+    friend float square(Distance);
 };
 
-float Distance::square()
+float square(Distance d)
 {
-    float fltfeet = feet + inches/12;
+    float fltfeet = d.feet + d.inches/12;
     float feetsqrd = fltfeet * fltfeet;
     return feetsqrd;
 }
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     Distance dist(3, 6.0);
     float sqft;
 
-    sqft = dist.square();
+    sqft = square(dist);
 
     cout << "\nDistance = ";
     dist.showdist();
