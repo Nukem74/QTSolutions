@@ -2,28 +2,28 @@
 #include <iostream>
 using namespace std;
 
-class Base
+class Base                      //объявление класса
 {
-public:
-    void show()
+public:                         //публичные члены
+    virtual void show()         //виртуальный метод
     {
         cout << "Base\n";
     }
 };
 
-class Derv1 : public Base
+class Derv1 : public Base       //объявление класса
 {
-public:
-    void show()
+public:                         //публичные члены
+    virtual void show()         //виртуальный метод
     {
         cout << "Dervl\n";
     }
 };
 
-class Derv2 : public Base
+class Derv2 : public Base       //объявление класса
 {
-public:
-    void show()
+public:                         //публичные члены
+    virtual void show()         //виртуальный метод
     {
         cout << "Derv2\n";
     }
