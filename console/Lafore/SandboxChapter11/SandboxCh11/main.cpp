@@ -2,48 +2,49 @@
 #include <iostream>
 using namespace std;
 
-class Distance                                      //объявление класса
+class gamma
 {
-private:                                            //приватные члены
-    int feet;
-    float inches;
-public:                                             //публичные члены
-    Distance() : feet(0), inches(0.0f)              //конструктор без аргументов с установкой двух приватных полей по умолчанию
+private:
+    static int total;
+    int id;
+public:
+    gamma()
     {
-        //empty
+        total++;
+        id = total;
     }
-    Distance(int ft, float in)                      //конструктор с двумя аргументами
+    ~gamma()
     {
-        feet = ft;
-        inches = in;
+        total--;
+        cout << "Deleted ID: " << id << endl;
     }
-    void showdist()                                 //публичный метод отображающий значение приватных полей
+    static void showtotal()
     {
-        cout << feet << "\'" << inches << '\"';
+        cout << "Total: " << total << endl;
     }
-    friend float square(Distance);
+    void showid()
+    {
+        cout << "ID: " << id << endl;
+    }
+
 };
 
-float square(Distance d)
-{
-    float fltfeet = d.feet + d.inches/12;
-    float feetsqrd = fltfeet * fltfeet;
-    return feetsqrd;
-}
+int gamma::total = 0;
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    Distance dist(3, 6.0);
-    float sqft;
+    gamma g1;
+    gamma::showtotal();
 
-    sqft = square(dist);
+    gamma g2, g3;
 
-    cout << "\nDistance = ";
-    dist.showdist();
-
-    cout << "\nSquare of a diastance = " << sqft << "sq feet";
+    gamma::showtotal();
+    g1.showid();
+    g2.showid();
+    g3.showid();
+    cout << "===GAME OVER===";
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
