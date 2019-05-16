@@ -12,11 +12,6 @@ public:                                             //публичные чле�
     {
         //empty
     }
-    Distance(float fltfeet)                         //конструктор с одним аргументом
-    {
-        feet = static_cast<int>(fltfeet);
-                inches = 12*(fltfeet - feet);
-    }
     Distance(int ft, float in)                      //конструктор с двумя аргументами
     {
         feet = ft;
@@ -26,41 +21,29 @@ public:                                             //публичные чле�
     {
         cout << feet << "\'" << inches << '\"';
     }
-    friend Distance operator + (Distance, Distance);//прототип дружественной перегрузки оператора
+    float square();
 };
 
-Distance operator + (Distance d1, Distance d2)       //перегрузка оператора
+float Distance::square()
 {
-    int f = d1.feet + d2.feet;
-    float i = d1.inches + d2.inches;
-    if ( i >= 12.0f)
-    {
-        i -= 12.0f;
-        f++;
-    }
-    return Distance(f,i);
+    float fltfeet = feet + inches/12;
+    float feetsqrd = fltfeet * fltfeet;
+    return feetsqrd;
 }
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    Distance d1 = 2.5;
-    Distance d2 = 1.25;
-    Distance d3;
-    cout << "\nd1 = ";
-    d1.showdist();
-    cout << "\nd2 = ";
-    d2.showdist();
+    Distance dist(3, 6.0);
+    float sqft;
 
-    /*d3 = d1 + 10.0;
-    cout << "\nd3 = ";
-    d3.showdist();*/
+    sqft = dist.square();
 
-    d3 = 10.0 + d1;
-    cout << "\nd3 = ";
-    d3.showdist();
-    cout << endl;
+    cout << "\nDistance = ";
+    dist.showdist();
+
+    cout << "\nSquare of a diastance = " << sqft << "sq feet";
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
