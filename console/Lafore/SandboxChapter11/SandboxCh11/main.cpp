@@ -2,46 +2,65 @@
 #include <iostream>
 using namespace std;
 
-class beta;
-
-class alpha
+class Distance
 {
 private:
-    int data;
+    int feet;
+    float inches;
 public:
-    alpha() : data(3)
+    Distance() : feet(0), inches(0.0f)
     {
         //empty
     }
-    friend int frifunc(alpha, beta);
-};
-
-class beta
-{
-private:
-    int data;
-public:
-    beta(): data(7)
+    Distance(float fltfeet)
     {
-        //empty
+        feet = static_cast<int>(fltfeet);
+                inches = 12*(fltfeet - feet);
     }
-    friend int frifunc(alpha, beta);
+    Distance(int ft, float in)
+    {
+        feet = ft;
+        inches = in;
+    }
+    void showdist()
+    {
+        cout << feet << "\'" << inches << '\"';
+    }
+    Distance operator + (Distance);
 };
 
-int frifunc(alpha a, beta b)
+Distance Distance :: operator + (Distance d2)
 {
-    return(a.data + b.data);
+    int f = feet + d2.feet;
+    float i = inches + d2.inches;
+    if ( i >= 12.0f)
+    {
+        i -= 12.0f;
+        f++;
+    }
+    return Distance(f,i);
 }
-
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    alpha aa;
-    beta bb;
+    Distance d1 = 2.5;
+    Distance d2 = 1.25;
+    Distance d3;
+    cout << "\nd1 = ";
+    d1.showdist();
+    cout << "\nd2 = ";
+    d2.showdist();
 
-    cout << frifunc(aa, bb) << endl;
+    d3 = d1 + 10.0;
+    cout << "\nd3 = ";
+    d3.showdist();
+
+    //d3 = 10.0 + d1;
+    //    cout << "\nd3 = ";
+    //d3.showdist();
+    cout << endl;
 ////////////////////////////////////////////////////////////
     return a.exec();
 }

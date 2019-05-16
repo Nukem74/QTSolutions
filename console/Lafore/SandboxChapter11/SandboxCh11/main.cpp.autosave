@@ -2,46 +2,65 @@
 #include <iostream>
 using namespace std;
 
-class beta;                             //прототип класса
-
-class alpha                             //объявление класса
+class Distance                                      //объявление класса
 {
-private:                                //приватные члены
-    int data;
-public:                                 //публичные члены
-    alpha() : data(3)                   //конструктор с установкой приватного поля по умолчанию
+private:                                            //приватные члены
+    int feet;
+    float inches;
+public:                                             //публичные члены
+    Distance() : feet(0), inches(0.0f)              //конструктор без аргументов с установкой двух приватных полей по умолчанию
     {
         //empty
     }
-    friend int frifunc(alpha, beta);    //объявление дружественной функции
-};
-
-class beta                              //объявление класса
-{
-private:                                //приватные члены
-    int data;
-public:                                 //публичные члены
-    beta(): data(7)                     //конструктор с установкой приватного поля по умолчанию
+    Distance(float fltfeet)                         //конструктор с одним аргументом
     {
-        //empty
+        feet = static_cast<int>(fltfeet);
+                inches = 12*(fltfeet - feet);   
     }
-    friend int frifunc(alpha, beta);    //объявление дружественной функции
+    Distance(int ft, float in)                      //конструктор с двумя аргументами
+    {
+        feet = ft;
+        inches = in;
+    }
+    void showdist()                                 //публичный метод отображающий значение приватных полей
+    {
+        cout << feet << "\'" << inches << '\"';
+    }
+    Distance operator + (Distance);                 //прототип перегрузки оператора
 };
 
-int frifunc(alpha a, beta b)            //дружественная функция
+Distance Distance :: operator + (Distance d2)       //перегрузка оператора
 {
-    return(a.data + b.data);
+    int f = feet + d2.feet;
+    float i = inches + d2.inches;
+    if ( i >= 12.0f)
+    {
+        i -= 12.0f;
+        f++;
+    }
+    return Distance(f,i);
 }
-
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    alpha aa;
-    beta bb;
+    Distance d1 = 2.5;
+    Distance d2 = 1.25;
+    Distance d3;
+    cout << "\nd1 = ";
+    d1.showdist();
+    cout << "\nd2 = ";
+    d2.showdist();
 
-    cout << frifunc(aa, bb) << endl;   //вызов дружественной функции от приватных аргументов различных классов
+    d3 = d1 + 10.0;
+    cout << "\nd3 = ";
+    d3.showdist();
+
+    //d3 = 10.0 + d1;
+    //cout << "\nd3 = ";
+    //d3.showdist();
+    cout << endl;
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
