@@ -1,0 +1,47 @@
+#include <QCoreApplication>
+#include <iostream>
+using namespace std;
+
+class beta;                             //прототип класса
+
+class alpha                             //объявление класса
+{
+private:                                //приватные члены
+    int data;
+public:                                 //публичные члены
+    alpha() : data(3)                   //конструктор с установкой приватного поля по умолчанию
+    {
+        //empty
+    }
+    friend int frifunc(alpha, beta);    //объявление дружественной функции
+};
+
+class beta                              //объявление класса
+{
+private:                                //приватные члены
+    int data;
+public:                                 //публичные члены
+    beta(): data(7)                     //конструктор с установкой приватного поля по умолчанию
+    {
+        //empty
+    }
+    friend int frifunc(alpha, beta);    //объявление дружественной функции
+};
+
+int frifunc(alpha a, beta b)            //дружественная функция
+{
+    return(a.data + b.data);
+}
+
+////////////////////////////////////////////////////////////
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+////////////////////////////////////////////////////////////
+    alpha aa;
+    beta bb;
+
+    cout << frifunc(aa, bb) << endl;   //вызов дружественной функции от приватных аргументов различных классов
+////////////////////////////////////////////////////////////
+    return a.exec();
+}
