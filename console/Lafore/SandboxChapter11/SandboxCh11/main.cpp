@@ -2,84 +2,46 @@
 #include <iostream>
 using namespace std;
 
-class person
-{
-protected:
-    char name[40];
-public:
-    void getName()
-    {
-        cout << "Enter name: ";
-        cin >> name;
-    }
-    void putName()
-    {
-        cout << "Name: " << name << endl;
-    }
-    virtual void getData() = 0;
-    virtual bool isOutstanding() = 0;
+class beta;
 
-};
-
-class student: public person
+class alpha
 {
 private:
-    float gpa;
+    int data;
 public:
-    void getData()
+    alpha() : data(3)
     {
-        person::getName();
-        cout << "Graduating points average: ";
-        cin >> gpa;
+        //empty
     }
-    bool isOutstanding()
-    {
-        return(gpa > 3.5f) ? true : false;
-    }
+    friend int frifunc(alpha, beta);
 };
 
-class professor: public person
+class beta
 {
 private:
-    int numPubs;
+    int data;
 public:
-    void getData()
+    beta(): data(7)
     {
-        person::getName();
-        cout << "Publications number: ";
-        cin >> numPubs;
+        //empty
     }
-    bool isOutstanding()
-    {
-        return(numPubs > 100) ? true : false;
-    }
+    friend int frifunc(alpha, beta);
 };
+
+int frifunc(alpha a, beta b)
+{
+    return(a.data + b.data);
+}
 
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    //Base bad;
-    person* persPTR[100];
-    int n = 0;
-    char choice;
-    do
-    {
-        cout << "\nEnter data for student(S) or professor(P): ";
-        cin >> choice;
-        (choice == 'S') ? persPTR[n] = new student : persPTR[n] = new professor;
-        persPTR[n++]->getData();
-        cout << " more data?(y/n)";
-        cin >> choice;
-    }
-    while (choice == 'y');
-    for(int i = 0; i < n; i++)
-    {
-        persPTR[i]->putName();
-        if(persPTR[i]->isOutstanding())
-            cout << "is outastanding person!";
-    }
+    alpha aa;
+    beta bb;
+
+    cout << frifunc(aa, bb) << endl;
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
