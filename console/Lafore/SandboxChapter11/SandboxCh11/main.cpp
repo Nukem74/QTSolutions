@@ -2,37 +2,37 @@
 #include <iostream>
 using namespace std;
 
-class Distance
+class Distance                                      //объявление класса
 {
-private:
+private:                                            //приватные члены
     int feet;
     float inches;
-public:
-    Distance() : feet(0), inches(0.0f)
+public:                                             //публичные члены
+    Distance() : feet(0), inches(0.0f)              //конструктор без аргументов с установкой двух приватных полей по умолчанию
     {
         //empty
     }
-    Distance(float fltfeet)
+    Distance(float fltfeet)                         //конструктор с одним аргументом
     {
         feet = static_cast<int>(fltfeet);
                 inches = 12*(fltfeet - feet);
     }
-    Distance(int ft, float in)
+    Distance(int ft, float in)                      //конструктор с двумя аргументами
     {
         feet = ft;
         inches = in;
     }
-    void showdist()
+    void showdist()                                 //публичный метод отображающий значение приватных полей
     {
         cout << feet << "\'" << inches << '\"';
     }
-    Distance operator + (Distance);
+    friend Distance operator + (Distance, Distance);//прототип дружественной перегрузки оператора
 };
 
-Distance Distance :: operator + (Distance d2)
+Distance operator + (Distance d1, Distance d2)       //перегрузка оператора
 {
-    int f = feet + d2.feet;
-    float i = inches + d2.inches;
+    int f = d1.feet + d2.feet;
+    float i = d1.inches + d2.inches;
     if ( i >= 12.0f)
     {
         i -= 12.0f;
@@ -53,13 +53,13 @@ int main(int argc, char *argv[])
     cout << "\nd2 = ";
     d2.showdist();
 
-    d3 = d1 + 10.0;
+    /*d3 = d1 + 10.0;
+    cout << "\nd3 = ";
+    d3.showdist();*/
+
+    d3 = 10.0 + d1;
     cout << "\nd3 = ";
     d3.showdist();
-
-    //d3 = 10.0 + d1;
-    //    cout << "\nd3 = ";
-    //d3.showdist();
     cout << endl;
 ////////////////////////////////////////////////////////////
     return a.exec();
