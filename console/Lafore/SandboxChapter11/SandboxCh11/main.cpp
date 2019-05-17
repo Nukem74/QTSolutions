@@ -3,14 +3,15 @@
 #include <cstring>
 using namespace std;
 
-class where                             //объявление класса
+class what
 {
-private:                                //приватные члены
-    char charray[10];
-public:                                 //публичные члены
-    void reveal()                       //публичный метод, отображающий адрес объекта
+private:
+    int alpha;
+public:
+    void tester()
     {
-        cout << "\nMy adress ain't house and ain't street, my adress - " << this;
+        this->alpha = 11;//same as alpha = 11
+        cout << this->alpha;//same as cout << alpha
     }
 };
 
@@ -19,10 +20,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    where w1, w2, w3;
-    w1.reveal();
-    w2.reveal();
-    w3.reveal();
+    what w;
+    w.tester();
     cout << endl;
 ////////////////////////////////////////////////////////////
     return a.exec();
