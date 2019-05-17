@@ -1,85 +1,107 @@
 #include <QCoreApplication>
 #include <iostream>
+#include <cstring>
 using namespace std;
 
-class gamma                                 //объявление класса
+class strCount                          //объявление класса
 {
-private:                                    //приватные члены
-    static int total;                       //статическое целочисленное поле
-    int id;
-public:                                     //публичные члены
-    gamma()                                 //конструктор без аргументов устанавливающй значение приватного поля
+private:                                //приватные члены
+    int count;
+    char* str;
+    friend class String;                //декларация классовой дружбы *_-
+    strCount(char* s)                   //конструктор с одним аргументом
     {
-        total++;
-        id = total;
+        int length = strlen(s);         //устанавливаем длину передаваемой конструктору строки
+        str = new char[length + 1];     //выделяем память для приватного поля, чтобы разместить в нем аргумент конструктора
+        strcpy(str, s);                 //копируем в приватное поле аргумент конструктора
+        count = 1;                      //инициализируем счетчик
     }
-    ~gamma()                                //деструктор
+    ~strCount()                         //деструктор
     {
-        total--;
-        cout << "Deleted ID: " << id << endl;//не отображается
-    }
-    static void showtotal()                 //публичный метод, отображающий содержимое приватного поля
-    {
-        cout << "Total: " << total << endl;
-    }
-    void showid()                           //публичный метод отображающий содержимое приватного поля
-    {
-        cout << "ID: " << id << endl;
-    }
-
-};
-
-class alpha                                 //объявление класса
-{
-private:                                    //приватные члены
-    int data;
-public:                                     //публичные члены
-    alpha()                                 //конструктор без аргументов
-    {
-
-    }
-    alpha(int d)                            //конструктор с одним аргументом
-    {
-        data = d;
-    }
-    alpha(alpha& a)                         //конструктор копирования
-    {
-        data = a.data;//в создаваемом объекте приватному полю присваивается значение приватного поля аргумента, передаваемого по ссылке
-        cout << "\nCopying constructor activated";
-    }
-    void display()
-    {
-        cout << data;
-    }
-    /*alpha*/void operator = (alpha& a)     //перегрузка оператора присваивания
-    {
-        //аргумент передается оператору по ссылке, задумка в том, что так
-        //не происходит копирования аргумента.
-        data = a.data;
-        cout << "\nAssignment operator activated";
-        //return alpha(data);
-        //возвращение результата путем создания временного объекта alpha и его инициализации с помощью одноаргументного конструктора
+        delete[] str;
     }
 };
 
+class String                            //объявление класса
+{
+private:                                //приватные члены
+    strCount* psc;
+public:                                 //публичные члены
+    String()                            //конструктор без аргументов
+    {
+        psc = new strCount("NULL");     //инициализация экземпляра класса strCount значением NULL
+    }
+    String(char* s)                     //конструктор с одним аргументом
+    {
+        psc = new strCount(s);          //инициализация экземпляра класса strCount значением NULL
+    }
+    String(String& S)                   //конструктор копирования
+    {
+        psc = S.psc;
+        (psc->count)++;
+    }
+    ~String()                           //деструктор
+    {
+        if(psc->count == 1)
+        {
+            delete psc;
+        }
+        else
+        {
+            (psc->count)--;
+        }
+    }
+    void display()                      //публичный метод отображающий значение приватного поля
+    {
+        cout << psc->str;
+        cout <<"\n (addr=" << psc << ")";
+    }
+    /*void operator = (char* S)         //перегрузка оператора присваивания(некорректно)
+    {
+        *psc = strCount(S);
+    }*/
+    void operator = (String& S)         //перегрузка оператора присваивания(некорректно)
+    {
+        /*
+         * перегруженный оператор присваивания работает некорректно
+         * в данной перегрузке он позволяет копировать содержимое аргумента с права от знака
+         * только если правый аргумент является объектом класса String
+         * но не позволяет копировать содержимое строковой константы, ограниченной " "
+         * */
+        if(psc->count == 1)
+        {
+            delete psc;
+        }
+        else
+        {
+            (psc->count)--;
+        }
+        psc = S.psc;
+        (psc->count)++;
+    }
+};
 
 ////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 ////////////////////////////////////////////////////////////
-    alpha a1(37);
-    alpha a2;
-    a2 = a1;
-    cout << "\na2 = ";
-    a2.display();
+    String s3("\nMy final surrender \nAway from inclusion \nI now await the triumphant \nLeft baggage, train station");
+    //String s3 = "My final surrender Away from inclusion I now await the triumphant Left baggage, train station"; //not valid
+    cout << "\ns3 = ";
+    s3.display();
 
-    //alpha a3(a1);
-    alpha a3 = a2;//samesh1t
-    cout << "\na3 = ";
-    a3.display();
+    String s1;
+    s1 = s3;
+    cout << "\ns1 = ";
+    s1.display();
+
+    String s2(s3);
+
+    cout << "\ns2 = ";
+    s2.display();
+
     cout << endl;
-
 ////////////////////////////////////////////////////////////
     return a.exec();
 }
