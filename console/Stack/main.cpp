@@ -4,27 +4,27 @@ using namespace std;
 
 class Stack;
 
-class sheet
+class sheet                                 //элемент стека
 {
-    int _value;
+    int _value;                             //содержимое стека
 
-    sheet* prev;
+    sheet* prev;                            //ссылка на предыдущий элемент
 
-    friend class Stack;
+    friend class Stack;                     //декларация классовой дружбы
 };
 
-class Stack
+class Stack                                 //класс, содержащий методы управления стеком
 {
 private:
-    sheet* top;
-    int _counter;
+    sheet* top;                             //приватный указатель на верхний элемент стека
+    int _counter;                           //счетчик
 public:
-    Stack()
+    Stack()                                 //конструктор инициализирующий счетчик и указатель
     {
         _counter = 0;
         top = NULL;
     }
-    void push(int v)
+    void push(int v)                        //публичный метод, добавляющий элемент в конец стека
     {
         sheet* bot = new sheet();
         bot->_value = v;
@@ -33,11 +33,11 @@ public:
         _counter++;
 
     }
-    int peek()
+    int peek() const                        //публичный метод возвращающий последний элемент стека
     {
         return top->_value;
     }
-    int quantity()
+    int quantity()                          //публичный метод возвращающий значение счетчика
     {
         return _counter;
     }
@@ -48,6 +48,17 @@ public:
         _counter--;
         return popper._value;
     }
+    bool isEmpty()                          //публичный метод, проверяющий является ли стек пустым
+    {
+        if(top == NULL)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 };
 
 
@@ -55,13 +66,15 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     Stack exmp;
-    exmp.push(1);
+    //cout << exmp.isEmpty() << endl;
+    exmp.push(2);
+    //cout << exmp.isEmpty() << endl;
     exmp.push(14);
     exmp.push(13);
-    cout << exmp.quantity() << endl;
-    exmp.pop();
-    cout << exmp.quantity() << endl;
-    exmp.pop();
-    cout << exmp.quantity() << endl;
+    //cout << exmp.quantity() << endl;
+
+    //cout << exmp.quantity() << endl;
+    cout << exmp.pop() << " " << exmp.pop() << " " << exmp.pop();
+    //cout << exmp.quantity() << endl;
     return a.exec();
 }
