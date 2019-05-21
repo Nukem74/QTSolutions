@@ -5,6 +5,35 @@ using namespace std;
 class LinkedList;
 const int LENGTH = 100;
 
+/*{
+ * счетчик символов
+    int i = 0;
+    while(A[i] != '\0')
+    {
+        i++;
+    }
+}*/
+
+/*
+ * алгоритм сравнения сравнения
+    int i = 0;
+    bool eureka = true;
+    while(i < LENGTH)
+    {
+        eureka = true;
+        if(A[i] == B[i])
+        {
+            eureka = true;
+            i++;
+        }
+        else
+        {
+            eureka = false;
+            break;
+        }
+    }
+ * */
+
 class Node                          //объявление класса-узла
 {
 private:
@@ -46,19 +75,42 @@ public:
         }
         return current;
     }
-    Node* find(char d[])            //публичный метод с одним аргментом, возвращающий аргумент из списка, если таковой имеется
+    bool isEqual(Node* n, char d[])           //публичный метод с одним аргментом, проверяющий наличие в списке передаваемого аргумента
     {
-        Node* current = Last;
-        bool eureka;
-        while(current)
+        bool eureka = false;
+        int i = 0;
+        while(i < LENGTH)
         {
             eureka = true;
-            int i = 0;
-            while(current->_data[i] != '\0')
+            if(n->_data[i] == d[i])
             {
-                if(d[i] == current->_data[i])
+                eureka = true;
+                i++;
+            }
+            else
+            {
+                eureka = false;
+                break;
+            }
+        }
+        return eureka;
+    }
+
+    Node* find(char d[])
+    {
+        Node* current = Last;
+        bool eureka = false;
+        while(current)
+        {
+
+            int i = 0;
+            while(i < LENGTH)
+            {
+                eureka = true;
+                if(current->_data[i] == d[i])
                 {
-                    continue;
+                    eureka = true;
+                    i++;
                 }
                 else
                 {
@@ -68,20 +120,26 @@ public:
             }
             if(eureka)
             {
-                break;
+                return current;
             }
             else
             {
                 current = current->tail;
             }
-
         }
-        return current;
+        return NULL;
     }
 
     void display(Node* n)           //публичный метод, отображающий узел по указателю(возможно сделать приватным или переписать)
     {
-        cout << n->_data << endl;
+        if(n != NULL)
+        {
+            cout << n->_data << endl;
+        }
+        else
+        {
+            cout << "empty pointer" << endl;
+        }
     }
     void display()                  //публичный метод, отображающий содержимое списка
     {
@@ -98,14 +156,18 @@ public:
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    LinkedList example1;
-    example1.add("First_entry");
-    char data[LENGTH] = "Second_Entry";
-    example1.add(data);
-    cout << "Make third entry: ";
-    cin >> data;
-    example1.add(data);
-    example1.display(example1.getFirst());
-    example1.display();
+    LinkedList examp;
+    examp.add("word");
+    examp.add("letter");
+    examp.add("sentence");
+    examp.add("expression");
+    Node* pointer = examp.find("word");
+    examp.display(pointer);
+    pointer = examp.find("world");
+    examp.display(pointer);
+    pointer = examp.find("expression");
+    examp.display(pointer);
+
+
     return a.exec();
 }
