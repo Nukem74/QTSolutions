@@ -2,58 +2,54 @@
 #include <iostream>
 using namespace std;
 
-class Queue;
+const int size = 100;
 
 class customer
 {
-    int number;
-    customer* first;
-    customer* last;
+    int value;
     friend class Queue;
 };
 
-class Queue
+class Queue : customer
 {
 private:
-    customer* inLine;
+    customer Line[size];
+    int counter;
 public:
     Queue()
     {
-        inLine = NULL;
+        counter = 0;
     }
     void enqueue(int val)
     {
-        customer* current = new customer();
-        current->number = val;
-        current->first = inLine;
-        current->last = current;
-        inLine = current;
+        Line[counter].value = val;
+        counter++;
     }
-    int* dequeue()
+    int dequeue()
     {
-        customer* current = new customer;
-        while(inLine)
+        int val = Line[0].value;
+        int i = 0;
+        while((i+1) != counter)
         {
-            current = inLine;
-            inLine = inLine->first;
+            Line[i] = Line[i + 1];
+            i++;
         }
-        return &current->number;
+        Line[counter].value = NULL;
+        counter--;
+        return val;
     }
-
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     Queue custom;
-
     custom.enqueue(101);
     custom.enqueue(202);
     custom.enqueue(303);
     custom.enqueue(404);
     custom.enqueue(505);
-    cout << *custom.dequeue();
-
+    cout << custom.dequeue() << " " << custom.dequeue() << " " << custom.dequeue() << " " << custom.dequeue() << " " << custom.dequeue();
 
     return a.exec();
 }
