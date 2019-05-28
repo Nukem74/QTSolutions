@@ -62,11 +62,12 @@ public:
         newEntry->tail = Last;      //перемещаем указатель узла на предыдущий оперируемый узел
         Last = newEntry;            //объявляем новый узел последним оперируемым
     }
-    Node* getLast()                 //публичный метод без аргументов, возвращающий последний узел списка
+    Node* getLast()const                 //публичный метод без аргументов, возвращающий последний узел списка
     {
-        return Last;
+
+        //return Last;                   //прдыдущий вариант реализации
     }
-    Node* getFirst()                //публичный метод без аргументов, возвращающий первый узел списка
+    Node* getFirst()const                //публичный метод без аргументов, возвращающий первый узел списка
     {
         Node* current = Last;
         while(current->tail)
@@ -75,28 +76,28 @@ public:
         }
         return current;
     }
-    bool isEqual(Node* n, char d[])           //публичный метод с одним аргментом, проверяющий наличие в списке передаваемого аргумента
-    {
-        bool eureka = false;
-        int i = 0;
-        while(i < LENGTH)
+    bool isEqual(Node* n, char d[])      //публичный метод с двумя аргментами, проверяющий равенство поля данных указателя и передаваемого аргумента(зачем?)
+    {                                   //может это прототип метода find
+        bool eureka = false;            //логическая переменная проинициализированна 0-значением
+        int i = 0;                      //счетчик проинициализирован 0-значением
+        while(i < LENGTH)               //цикл работает пока счетчик меньше константы
         {
-            eureka = true;
-            if(n->_data[i] == d[i])
-            {
+            eureka = true;              //установка значения логической переменной
+            if(n->_data[i] == d[i])     //если символ i в поле указателя равен символу i аргумента, то
+            {                           //установка логического значения переменной
                 eureka = true;
-                i++;
+                i++;                    //увеличение счетчика
             }
             else
-            {
-                eureka = false;
-                break;
+            {                           //иначе
+                eureka = false;         //установка логического значения
+                break;                  //выход из цикла
             }
         }
         return eureka;
     }
 
-    Node* find(char d[])
+    Node* find(char d[])                //публичный метод, осуществляющий поиск аргумента в списке и возвращающий указатель на объект с подходящим полем
     {
         Node* current = Last;
         bool eureka = false;
@@ -157,16 +158,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     LinkedList examp;
-    examp.add("word");
-    examp.add("letter");
-    examp.add("sentence");
-    examp.add("expression");
-    Node* pointer = examp.find("word");
-    examp.display(pointer);
-    pointer = examp.find("world");
-    examp.display(pointer);
-    pointer = examp.find("expression");
-    examp.display(pointer);
+
 
 
     return a.exec();
