@@ -4,7 +4,7 @@
 using namespace std;
 
 const int size = 100000;
-
+const int divider = 100;
 
 void display(int* n)
 {
@@ -97,6 +97,64 @@ void selectionSort(int *num)
     }
 }
 
+void shakerSort(int* mass,int count)
+{
+    int left = 0;                           //устанавливаем индекс левой границы выборки
+    int right = count - 1;                  //устанавливаем индекс правой границы выборки
+    int flag = 1;                           //поднять флаг!
+    while((left < right) && (flag > 0))     //пока границы не совпали и флаг поднят
+    {
+        flag = 0;                           //приспустить флаг!
+        for(int i = left; i < right; i++)   //перебираем выборку слева на право
+        {
+            if(mass[i] > mass[i + 1])       //упорядочевание элементов
+            {
+                int t = mass[i];
+                mass[i] = mass[i + 1];
+                mass[i + 1] = t;
+                flag = 1;
+            }
+        }
+        right--;                            //уменьшаем индекс правой границы выборки
+        for(int i = right; i > left; i--)   //перебираем выборку слева на право
+        {
+            if(mass[i - 1] > mass[i])       //упорядочевание элементов
+            {
+                int t = mass[i];
+                mass[i] = mass[i - 1];
+                mass[i - 1] = t;
+                flag = 1;
+            }
+        }
+        left++;                             //увеличиваем индекс левой границы выборки
+    }
+
+}
+
+void shellSort(int *num)
+{
+    int increment = size/2 + 1;                                     //устанавливаем стартовый размер приращения
+    while(increment > 0)                                            //пока приращение не деградировало в 0
+    {
+        for(int i = 0; i < size; i++)                               //перебираем выборку слева на право
+        {
+            int j = i;                                              //устанавливаем значение итератора внутреннего цикла
+            int temp = num[i];                                      //сохраняем сравниваемый элемент в переменную
+            while((j >= increment) && (num[j - increment] > temp))  //пока индекс оперируемого элемент больше инкремента
+                                                                    //и значение оперируемого элемента больше сравниваемого элемента
+            {
+                num[j] = num[j - increment];
+                j = j - increment;
+            }
+            num[j] = temp;
+        }
+        if(increment > 1)
+            increment = increment / 2;
+        else if (increment == 1)
+            break;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -107,14 +165,14 @@ int main(int argc, char *argv[])
         int exmpl1[size];
         for(int i = 0; i < size; i++)
         {
-            exmpl1[i] = rand() % size;
+            exmpl1[i] = rand() % divider;
         }
         cout << "First selection: " << endl;
         //display(exmpl1);
         //printf('\n');
         cout << endl;
         time1 = clock();
-        quicksort(exmpl1,0,size-1);
+        //quicksort(exmpl1,0,size-1);
         time2 = clock();
         cout << "Sorted with QuickSort in " << time2 - time1 << "ms" <<  endl;
         //display(exmpl1);
@@ -125,12 +183,12 @@ int main(int argc, char *argv[])
         int exmpl2[size];
         for(int i = 0; i < size; i++)
         {
-            exmpl2[i] = rand() % size;
+            exmpl2[i] = rand() % divider;
         }
         cout << "Second selection: " << endl;
         //display(exmpl2);
         time1 = clock();
-        inclusionSort(exmpl2);
+        //inclusionSort(exmpl2);
         time2 = clock();
         cout << "Sorted with InclusionSort in " << time2 - time1 << "ms" << endl;
         //display(exmpl2);
@@ -143,12 +201,12 @@ int main(int argc, char *argv[])
         int exmpl3[size];
         for(int i = 0; i < size; i++)
         {
-            exmpl3[i] = rand() % size;
+            exmpl3[i] = rand() % divider;
         }
         cout << "Third selection:" << endl;
         //display(exmpl3);
         time1 = clock();
-        selectionSort(exmpl3);
+        //selectionSort(exmpl3);
         time2 = clock();
         cout << "Sorted with SelectionSort in " << time2 - time1 << "ms" << endl;
 
@@ -156,32 +214,36 @@ int main(int argc, char *argv[])
 
     }
     cin >> wait;
-    /*exmpl4;
+    //exmpl4
     {
         int exmpl4[size];
         for(int i = 0; i < size; i++)
         {
-            exmpl4[i] = rand() % size;
+            exmpl4[i] = rand() % divider;
         }
-        cout << "Third selection:" << endl;
-        display(exmpl4);
-        cout << "Sorted with std:sort" << endl;
-        sort(exmpl4[0],exmpl4[99]);
-        display(exmpl4);
+        cout << "Forth selection:" << endl;
+        //display(exmpl4);
+        time1 = clock();
+        //shakerSort(exmpl4, size);
+        time2 = clock();
+        cout << "Sorted with ShakerSort in"  << time2 - time1 << "ms" << endl;
+        //display(exmpl4);
     }
     cin >> wait;
-    /*exmpl5;
+    //exmpl5;
     {
         int exmpl5[size];
         for(int i = 0; i < size; i++)
         {
-            exmpl5[i] = rand() % size;
+            exmpl5[i] = rand() % 100;
         }
-        cout << "Third selection:" << endl;
-        display(exmpl5);
-        cout << "Sorted with std:sort" << endl;
-        stable_sort()
-        display(exmpl5);
-    }*/
+        cout << "Fifth selection:" << endl;
+        //display(exmpl5);
+        time1 = clock();
+        shellSort(exmpl5);
+        time2 = clock();
+        cout << "Sorted with ShellSort" << time2 - time1 << "ms" << endl;
+        //display(exmpl5);
+    }
     return a.exec();
 }
