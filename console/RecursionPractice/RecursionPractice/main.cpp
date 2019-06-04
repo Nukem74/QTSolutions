@@ -2,24 +2,23 @@
 #include <iostream>
 using namespace std;
 
-//Дана строка, содержащая только десятичные цифры. Найти и вывести наибольшую цифру.
-int maximal = 0;
-int recursionMax(unsigned int number)
+//Дана строка, содержащая цифры и английские буквы (большие и маленькие). Найти и вывести количество цифр.
+int counter = 0;
+int recursionNumberCounter(char word[])
 {
-    if(maximal < (number % 10))
-        maximal = number % 10;
-    if(number != 0)
-    {
-        number = number / 10;
-        recursionMax(number);
-    }
-    return maximal;
+    if((*word != '\0') && (*word > 47) && (*word < 58))
+        counter++;
+    if(*word != '\0')
+        recursionNumberCounter(++word);
+    return counter;
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    unsigned int sample = 1202340432;
-    cout << recursionMax(sample);
+    char line[1000];
+    cin >> line;
+    cout << recursionNumberCounter(line);
+
     return a.exec();
 }
