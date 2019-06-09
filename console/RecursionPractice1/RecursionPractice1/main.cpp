@@ -1,23 +1,22 @@
 #include <QCoreApplication>
 #include <iostream>
 using namespace std;
-
-int recursiveSum(int number, int result)
+int result = 0;
+int recursiveSum(int number)
 {
     result += number % 10;
     //cout << result << endl;
     if(number > 0)
     {
-        recursiveSum(number / 10, result);
+        recursiveSum(number / 10);
     }
-    cout << result << endl;
+    //cout << result << endl;
     return result;
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    int sum = 0;
-    cout << recursiveSum(2131, sum);
+    cout << recursiveSum(2131);
     return a.exec();
 }
