@@ -1,22 +1,31 @@
 #include <QCoreApplication>
 #include <iostream>
 using namespace std;
+
+const int MAX = 80;
+
 int result = 0;
-int recursiveSum(int number)
+void recursiveCopy(char A[], char B[])
 {
-    result += number % 10;
-    //cout << result << endl;
-    if(number > 0)
+    if(*A != '\0')
     {
-        recursiveSum(number / 10);
+        *B = *A;
+        recursiveCopy(A++, B++);                //должно работать, все же супер
     }
-    //cout << result << endl;
-    return result;
+
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    cout << recursiveSum(2131);
+    char word1 [MAX];
+    char word2 [] = "Tiny Lumpy Evergreen Froze Among The Trees";
+    recursiveCopy(word2, word1);
+
+    cout << endl << word2;
+
+
+
+
     return a.exec();
 }
