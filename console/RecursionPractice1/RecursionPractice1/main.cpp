@@ -5,7 +5,7 @@ using namespace std;
 const int MAX = 80;
 
 int result = 0;
-void recursiveCopy(char A[], char B[])
+void recursiveCopy(char *A, char *B)
 {
     if(*A != '\0')
     {
