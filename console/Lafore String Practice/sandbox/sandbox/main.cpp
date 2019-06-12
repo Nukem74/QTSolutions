@@ -5,22 +5,16 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string full_name, nickname, adress;             //объявление переменных string
-    string greeting ("Hello! ");                    //инициализация string  с помощью конструктора
+    string s1 = "Lumpy Evergreen Tree Garden";      //инициализация string с помощью оператора присваивания
+    int n;
 
-    cout << "State your name: ";
-    getline(cin, full_name);                        //вызов метода getline для инициализации string из потока
-    cout << "Your name is: " << full_name << endl;  //отображение string
+    n = s1.find("Tree");                            //вызов метода нахождения компонента в строке, результат - позиция найденного компонента, -1 если не найдено
+    cout << "Found a good Tree at: " << n << endl;
 
-    cout << "Enter your nickname: ";
-    cin >> nickname;
+    n = s1.find_first_of("zix");                    //вызов метода нахождения символа из строки, результат - позиция первого найденного, -1 если не найдено
+    cout << "First of Birchnut: " << n << endl;
 
-    greeting += nickname;                           //конкатенация string оператором +=
-    cout << greeting << endl;
-
-    cout << "Enter your adress with multilines\n";
-    cout << "Finish your entry with $\n";
-    getline(cin, adress, '$');                      //вызов метода getline для инициализации string из потока, с явным указанием символа завершения ввода
-    cout << "Your adress is :" << adress << endl;   //отображение string
+    n = s1.find_last_not_of(" LumpyEvergnTGad");    //вызов метода нахождения символа не входящего в строку, результат - позиция первого найденного символа не из строки, -1 если ничего не найдено
+    cout << "first out of : " << n << endl;
     return a.exec();
 }
