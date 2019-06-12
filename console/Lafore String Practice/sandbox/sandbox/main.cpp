@@ -5,18 +5,22 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string s1 ("Fish");                     //инициализация string с помощью конструктора
-    string s2 = "Meat";                     //инициализация string с помощью оператора присваивания
-    string s3;                              //объявление string
+    string full_name, nickname, adress;             //объявление переменных string
+    string greeting ("Hello! ");                    //инициализация string  с помощью конструктора
 
-    s3 = s1;                                //присвоение одной переменной string значения другой переменной
-    cout << "s3 = " << s3 << endl;          //отображение переменной string
+    cout << "State your name: ";
+    getline(cin, full_name);                        //вызов метода getline для инициализации string из потока
+    cout << "Your name is: " << full_name << endl;  //отображение string
 
-    s3 = "Ain't " + s1 + " , ain't ";       //конкатенация с применением оператора сложения
-    s3 += s2;                               //конкатенация с присвоением оператора +=
-    cout << "s3 = " << s3 << endl;          //отображение переменной string
+    cout << "Enter your nickname: ";
+    cin >> nickname;
 
-    s1.swap(s2);                            //перменные string обмениваются значениями
-    cout << s1 << ", not " << s2 << endl;   //отображение string
+    greeting += nickname;                           //конкатенация string оператором +=
+    cout << greeting << endl;
+
+    cout << "Enter your adress with multilines\n";
+    cout << "Finish your entry with $\n";
+    getline(cin, adress, '$');                      //вызов метода getline для инициализации string из потока, с явным указанием символа завершения ввода
+    cout << "Your adress is :" << adress << endl;   //отображение string
     return a.exec();
 }
