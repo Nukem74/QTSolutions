@@ -5,26 +5,22 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string aName = "Ivan";                          //инициализация string с помощью оператора =
-    string userName;                                //объявление
+    char chararray [80];                                //объявление массива символов
+    string word;                                        //объявление string
 
-    cout << "Enter your name: ";
-    getline(cin, userName);                         //вызов метода getline для инициализации string из потока ввода
-    if(userName == aName)                           //сравнение string
-        cout << "Hello, Ivan";
-    else if (userName < aName)                      //сравнение string
-        cout << "Your name lesser than Ivan\n";
-    else if (userName > aName)                      //сравнение string
-        cout << "Your name much more than Ivan\n";
+    cout << "Enter a word: ";
+    cin >> word;
+    int wlen = word.length();                           //вызов метода для получение длины string
 
-    int n = userName.compare(0, 2, aName, 0 , 2);   //вызов метода сложного сравнения. Первый аргумент - начальная позиция объекта, второй - количество сравниваемых символов, третий - объект сравнения, четвертый - начальный позиция объекта сравнения, пятый - количество сравниваемых символов
-    cout << "first two letters of your name: ";
-    if (n == 0)
-        cout << "equal";
-    else if (n < 0)
-        cout << "goes after ";
-    else
-        cout << "goes before ";
-    cout << aName.substr(0,2) << endl;              //вызов метода возвращающего подстроку от строки, для которой метод был вызван. первый аргумент - начальная позиция фрагмента, второй - длина фрагмента
+    cout << "By single character: ";
+    for (int i = 0;i < wlen;i++)
+    {
+        cout << word.at(i);                             //вызов метода для получения i элемента строки
+        cout << word[i];                                //получение i элемента строки с помощью перегруженного оператора []
+    }
+
+    word.copy(chararray, wlen, 0);                      //вызов метода копирования string в массив символов
+    chararray[wlen] = 0;
+    cout << "\nArray contains: " << chararray << endl;
     return a.exec();
 }
