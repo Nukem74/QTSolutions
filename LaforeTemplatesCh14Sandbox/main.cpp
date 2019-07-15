@@ -11,20 +11,29 @@ private:                                    //list of private members
     Type st[MAX];
     int top;
 public:                                     //list of public members
-    Stack()                                 //constructor without arguments
-    {
-        top = -1;
-    }
-    void push(Type var)                     //void method with template argument
-    {
-        st[++top] = var;
-    }
-    Type pop()                              //template method with no arguments
-    {
-        return st[top--];
-    }
+    Stack();
+    void push(Type var);
+    Type pop();
 };
-
+//-----------------------------------------
+template<class Type>
+Stack<Type>::Stack()                        //constructor
+{
+    top = -1;
+}
+//----------------------------------------
+template<class Type>
+void Stack<Type>::push(Type var)            //void method with template argument
+{
+    st[++top] = var;
+}
+//----------------------------------------
+template<class Type>
+Type Stack<Type>::pop()                     //Template method with no arguments
+{
+    return st[top--];
+}
+//----------------------------------------
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
