@@ -2,56 +2,63 @@
 #include <iostream>
 
 using namespace std;
-const int MAX = 100;
 
-template <class Type>                       //Class template
-class Stack
+template <class TYPE>                       //Class template
+struct link                                 //declaration of a structure
+{
+    TYPE data;
+    link* next;
+};
+
+template<class TYPE>                        //Class template
+class linklist                              //declaration of a class
 {
 private:                                    //list of private members
-    Type st[MAX];
-    int top;
+    link<TYPE>* first;                      //pointer at template type
 public:                                     //list of public members
-    Stack();
-    void push(Type var);
-    Type pop();
+    linklist()                              //constructor without arguments
+    {
+        first = nullptr;
+    }
+    void additem(TYPE d);                   //method prototype
+    void display();                         //method prototype
 };
-//-----------------------------------------
-template<class Type>
-Stack<Type>::Stack()                        //constructor
+template<class TYPE>                        //Class template
+void linklist<TYPE>::additem(TYPE d)        //definition of linklist member that returns void and takes template as an argument
 {
-    top = -1;
+    link<TYPE>* newlink = new link<TYPE>;
+    newlink->data = d;
+    newlink->next = first;
+    first = newlink;
 }
-//----------------------------------------
-template<class Type>
-void Stack<Type>::push(Type var)            //void method with template argument
+
+template<class TYPE>                        //Class template
+void linklist<TYPE>::display()              //definition of linklist member that returns void and takes no arguments
 {
-    st[++top] = var;
+    link<TYPE>* current = first;
+    while(current)
+    {
+        cout << endl << current->data;
+        current = current->next;
+    }
 }
-//----------------------------------------
-template<class Type>
-Type Stack<Type>::pop()                     //Template method with no arguments
-{
-    return st[top--];
-}
-//----------------------------------------
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     //demo
-    Stack<float> s1;
-    s1.push(1111.1F);
-    s1.push(2222.2F);
-    s1.push(3333.3F);
-    cout << "1: " << s1.pop() << endl;
-    cout << "2: " << s1.pop() << endl;
-    cout << "3: " << s1.pop() << endl;
+    linklist<double> ld;
+    ld.additem(151.5);
+    ld.additem(262.6);
+    ld.additem(373.7);
+    ld.display();
 
-    Stack<long> s2;
-    s2.push(123123123L);
-    s2.push(234234234L);
-    s2.push(345345345L);
-    cout << "1: " << s2.pop() << endl;
-    cout << "2: " << s2.pop() << endl;
-    cout << "3: " << s2.pop() << endl;
+    linklist<char> lch;
+
+    lch.additem('a');
+    lch.additem('b');
+    lch.additem('c');
+    lch.display();
+    cout << endl;
+
     return a.exec();
 }
