@@ -1,18 +1,18 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <algorithm>
+#include <functional>
 using namespace std;
 
-int src1[] = {2, 3, 4, 6, 8};                   //declaration of samples
-int src2[] = {1, 3, 5};
-int dest[8];
+double fdata[] = {19.2 , 87.4 , 33.6 , 55.0 , 11.5 , 42.2}; //sample
+
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    merge(src1, src1+5, src2, src2+3, dest);    //merging sample arrays
-    for(int i = 0; i < 8; i++)
+    sort(fdata, fdata+6, greater<double> ());               //call "sort" to descending order members of sample array
+    for(int i = 0; i < 6; i++)
     {
-        cout << dest[i] << endl;                //displaying result
+        cout << fdata[i] << endl;                //displaying result
     }
     return a.exec();
 }
