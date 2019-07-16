@@ -4,20 +4,23 @@
 #include <string>
 using namespace std;
 //samples
-char* names[] = {"Sirgay" , "Thatyana", "He-lena", "Dmitriy", "Michaelis", "Khuilo"};
-//comparing function for C-style function
-bool alpha_comp(char* s1, char* s2)
+string names[] = {"Sirgay" , "Thatyana", "He-lena", "Dmitriy", "Michaelis", "Khuilo"};
+//string matching indicator for Khuilo
+bool isKhuilo(string name)
 {
-    return(strcmp(s1,s2) < 0) ? true : false;
+    return (name == "Khuilo");
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    sort(names, names + 6, alpha_comp); //call "sort" to order sample array
-
-    for(int j = 0; j < 6; j++)
-        cout << names[j] << endl;       //displaying
+    string* ptr;
+    ptr = find_if(names, names+6, isKhuilo);    //call "find" to check if Khuilo is on the list
+    //displaying
+    if(ptr == names + 6)
+        cout << "Khuilo not found";
+    else
+        cout << "Khuilo is at " << (ptr-names) << " position in the list" << endl;
     return a.exec();
 }
 
