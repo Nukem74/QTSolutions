@@ -3,11 +3,14 @@
 #include <algorithm>
 using namespace std;
 
-int arr[] = {33,22,33,44,33,55,66,77};                      //declaration of sample array
+int arr[] = {45, 2, 22, -17, 0, -30, 25, 55};   //declaration of sample array
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    int n = count(arr, arr+8,33);                           //call "count" to get number of items valued 33
-    cout << "Value 33 has " << n << " repeats." << endl;    //displaying result
+    sort(arr, arr+8);                           //call "sort" to order members of array
+    for(int i = 0; i < 8; ++i)
+    {
+        cout << arr[i] << endl;                 //displaying result
+    }
     return a.exec();
 }
