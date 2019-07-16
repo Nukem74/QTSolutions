@@ -3,24 +3,18 @@
 #include <algorithm>
 #include <string>
 using namespace std;
-//samples
-string names[] = {"Sirgay" , "Thatyana", "He-lena", "Dmitriy", "Michaelis", "Khuilo"};
-//string matching indicator for Khuilo
-bool isKhuilo(string name)
+
+void in_to_cm(double in)            //declaration of function
 {
-    return (name == "Khuilo");
+    cout << (in * 2.54) << ' ';
 }
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    string* ptr;
-    ptr = find_if(names, names+6, isKhuilo);    //call "find" to check if Khuilo is on the list
-    //displaying
-    if(ptr == names + 6)
-        cout << "Khuilo not found";
-    else
-        cout << "Khuilo is at " << (ptr-names) << " position in the list" << endl;
+    double inches[] = {3.5, 6.2, 1.0, 12.75, 4.33};//sample
+    for_each(inches, inches+5, in_to_cm);//call "in_to_cm" for each member of sample array
+    cout << endl;
     return a.exec();
 }
 
