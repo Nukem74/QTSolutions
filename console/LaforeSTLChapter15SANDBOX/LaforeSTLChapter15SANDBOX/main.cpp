@@ -3,14 +3,16 @@
 #include <algorithm>
 using namespace std;
 
-int arr[] = {45, 2, 22, -17, 0, -30, 25, 55};   //declaration of sample array
+int source[] = {11, 44, 33, 11, 22, 33, 11, 22, 44};    //declaration of sample array
+int pattern[] = {11, 22 ,33};                           //declaration of target array
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    sort(arr, arr+8);                           //call "sort" to order members of array
-    for(int i = 0; i < 8; ++i)
-    {
-        cout << arr[i] << endl;                 //displaying result
-    }
+    int* ptr;
+    ptr = search(source, source+9, pattern, pattern+3); //call "search" to find if there are members of pattern array in source array
+    if(ptr == source+9)                                 //displaying result
+        cout << "No match" << endl;
+    else
+        cout << "Match at " << (ptr-source) << endl;
     return a.exec();
 }
