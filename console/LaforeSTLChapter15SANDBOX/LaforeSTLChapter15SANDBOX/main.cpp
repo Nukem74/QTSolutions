@@ -1,18 +1,24 @@
 #include <QCoreApplication>
 #include <iostream>
 #include <algorithm>
-#include <functional>
+#include <string>
 using namespace std;
-
-double fdata[] = {19.2 , 87.4 , 33.6 , 55.0 , 11.5 , 42.2}; //sample
+//samples
+char* names[] = {"Sirgay" , "Thatyana", "He-lena", "Dmitriy", "Michaelis", "Khuilo"};
+//comparing function for C-style function
+bool alpha_comp(char* s1, char* s2)
+{
+    return(strcmp(s1,s2) < 0) ? true : false;
+}
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    sort(fdata, fdata+6, greater<double> ());               //call "sort" to descending order members of sample array
-    for(int i = 0; i < 6; i++)
-    {
-        cout << fdata[i] << endl;                //displaying result
-    }
+    sort(names, names + 6, alpha_comp); //call "sort" to order sample array
+
+    for(int j = 0; j < 6; j++)
+        cout << names[j] << endl;       //displaying
     return a.exec();
 }
+
+
