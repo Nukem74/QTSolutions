@@ -3,11 +3,25 @@
 using namespace std;
 
 template<class TYPE>
-struct node                                         //declaration of tempalate struct
+class queue;
+
+template<class TYPE>
+class node                                         //declaration of tempalate struct(or class)
 {
+private:
     TYPE data = NULL;                                      //public field with data
     node<TYPE>* prev = nullptr;                     //public pointer to previous node
     node<TYPE>* next = nullptr;                     //public pointer to next node
+public:
+    ~node()                                         //node destructor   //check it
+    {
+        data = NULL;
+        prev = nullptr;
+        delete prev;
+        next = nullptr;
+        delete next;
+    }
+    friend class queue<TYPE>;                       //declaration of class friendship
 };
 
 template<class TYPE>
@@ -31,6 +45,14 @@ public:                                             //public members
         first = current;                            //pointing to first node in queue
         last = current;                             //pointing to last node in queue
     }
+
+    ~queue()                                        //public destructor     //has to solve how to destruct all nodes in queue
+    {
+        first = nullptr;                            //pointing first node of queue to nullptr
+        delete first;                               //delete pointer to first node of queue
+        last = nullptr;                             //pointing last node of queue to nullptr
+        delete last;                                //delete pointer to last node of queue
+    }
     void enqueue(TYPE d)                            //public method returning void with template argument
     {
         node<TYPE>* current = new node<TYPE>;       //allocating memory for new node
@@ -49,10 +71,53 @@ public:                                             //public members
             last = current;                         //pointing last node in queue as current
         }
     }
+
+    bool isEmpty()                                  //bool method without arguments
+    {
+        if((first == nullptr) && (last == nullptr)) //if queue is empty
+        {
+            cout << "queue is empty";               //send message
+            return true;                            //return true
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    TYPE peekfirst() const                          //template-typed const method with no arguments
+    {
+        if(first != nullptr)                        //if first node in queue isn't nullptr
+        {
+            TYPE peek = first->data;                //return data field of first node read-only
+            return peek;
+        }
+        else
+        {
+            cout << "queue is empty";               //or send error message and return NULL
+            return NULL;
+        }
+    }
+
+    TYPE peeklast() const                           //template-typed const method with no arguments
+    {
+        if(last != nullptr)                         //if last node in queue isn't nullptr
+        {
+            TYPE peek = last->data;                 //return data field of last node read-only
+            return peek;
+        }
+        else
+        {
+            cout << "queue is empty";               //or send error message and return NULL
+            return NULL;
+        }
+    }
+
     node<TYPE> dequeue()                            //template returning method with no arguments
     {
         node<TYPE> current;                         //declaration of current node for method
-        if(first == nullptr)
+
+        if(first == nullptr)                        //restricting read from empty queue
         {
             cout << "queue is empty";
             return current;
@@ -87,27 +152,10 @@ public:                                             //public members
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    queue <int> qq;
-    int value;
-    cin >> value;
-    qq.enqueue(value);
-    cin >> value;
-    qq.enqueue(value);
-    cin >> value;
-    qq.enqueue(value);
-    cin >> value;
-    qq.enqueue(value);
-    cin >> value;
-    qq.enqueue(value);
-    cin >> value;
-    qq.enqueue(value);
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
-    cout << qq.dequeue().data << endl;
+    queue<int> qq;
+    qq.enqueue(101);
+    qq.dequeue();
+    cout << "end";
 
     return a.exec();
 }
