@@ -147,14 +147,43 @@ public:                                             //public members
         }
         return current;
     }
+    void headsUp()                                  //void-returning method with no arguments
+    {
+        node<TYPE>* current;                        //declaration of node-typed pointer
+        current = first;                            //assign first node to current
+        while(current != nullptr)                   //to all nodes in queue
+        {
+            cout << current->data << " stored at " << current << endl;//display in console
+            current = current->next;                //go to next node
+        }
+    }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     queue<int> qq;
-    qq.enqueue(101);
+    int entry;
+    cin >> entry;
+    qq.enqueue(entry);
+    cin >> entry;
+    qq.enqueue(entry);
+    cin >> entry;
+    qq.enqueue(entry);
+    cin >> entry;
+    qq.enqueue(entry);
+    cin >> entry;
+    qq.enqueue(entry);
+
+    cout << endl;
+
+    qq.headsUp();
     qq.dequeue();
+
+    cout << endl;
+
+    qq.headsUp();
+    qq.~queue();
     cout << "end";
 
     return a.exec();
