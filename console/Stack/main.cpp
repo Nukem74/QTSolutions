@@ -2,79 +2,113 @@
 #include <iostream>
 using namespace std;
 
-class Stack;
+template <class TYPE>
+class Stack;                                //declaration of template class
 
-class sheet                                 //элемент стека
+template <class TYPE>
+class node                                  //declaration of template class
 {
-    int _value;                             //содержимое стека
+private:                                    //private members
+    TYPE data;                              //template data field
+    node<TYPE>* prev;                       //template pointer
+public:
+    node()                                  //default constructor
+    {
+        data = NULL;
+        prev = nullptr;
+    }
 
-    sheet* prev;                            //ссылка на предыдущий элемент
+    ~node()                                 //default destructor
+    {
+        data = NULL;
+        prev = nullptr;
+        delete prev;
+    }
+    friend class Stack<TYPE>;               //declaration of class friendship
 
-    friend class Stack;                     //декларация классовой дружбы
 };
 
-class Stack                                 //класс, содержащий методы управления стеком
+template <class TYPE>
+class Stack                                 //declaration of tempalate class
 {
-private:
-    sheet* top;                             //приватный указатель на верхний элемент стека
-    int _counter;                           //счетчик
+private:                                    //private members
+    node<TYPE>* last;
 public:
-    Stack()                                 //конструктор инициализирующий счетчик и указатель
+    Stack()                                 //public constructor with no arguments
     {
-        _counter = 0;
-        top = NULL;
+        last = nullptr;
     }
-    void push(int v)                        //публичный метод, добавляющий элемент в конец стека
+    Stack(TYPE d)                           //public constructor with templated argument
     {
-        sheet* bot = new sheet();
-        bot->_value = v;
-        bot->prev = top;
-        top = bot;
-        _counter++;
+        node<TYPE>* current = new node<TYPE>;//allocate memory for new node
+        current->data = d;                  //assigning constructor argument's value to current node's data field
+        last = current;                     //point current node as last
+    }
+    ~Stack()                                //public destructor
+    {
+        last = nullptr;                     //pointing last node to nullptr
+        delete last;                        //delete pointer to last node
+    }
+    void push(TYPE d)                       //public method returning void with templated argument
+    {
+        node<TYPE>* current = new node<TYPE>;//allocate memory for new node
+        current->data = d;                  //assign argument's value to current node's data field
 
+        current->prev = last;               //pointing last node in stack as previous-to-current node
+        last = current;                     //pointing current node as last
     }
-    int peek() const                        //публичный метод возвращающий последний элемент стека
+    TYPE pop()                              //public templated method without arguments
     {
-        return top->_value;
-    }
-    int quantity()                          //публичный метод возвращающий значение счетчика
-    {
-        return _counter;
-    }
-    int pop()
-    {
-        sheet popper = *top;
-        top = top->prev;
-        _counter--;
-        return popper._value;
-    }
-    bool isEmpty()                          //публичный метод, проверяющий является ли стек пустым
-    {
-        if(top == NULL)
+        if(last != nullptr)                 //if stack isn't empty
         {
-            return true;
+            TYPE data = last->data;         //saving data from last node
+
+            node<TYPE>* ptr = last->prev;   //saving pointer to previous-to-last node
+            last->~node<TYPE>();            //destructing last node
+
+            last = ptr;                     //pointing previous-to-last node as last
+            ptr = nullptr;                  //pointing temporary pointer to null
+            delete ptr;                     //delete temporary pointer
+            return data;                    //returning data
         }
         else
         {
-            return false;
+            cout << "STACK IS EMPTY";       //sending error message to console
+            return NULL;                    //returning null
         }
     }
+    TYPE peek() const                       //public templated constant method with no arguments
+    {
+        if(last != nullptr)
+        {
+            return last->data;              //return data
+        }
+        else
+        {
+            cout << "STACK IS EMPTY";       //sending error message to console
+            return NULL;                    //returning null
+        }
+    }
+
 };
 
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Stack exmp;
-    //cout << exmp.isEmpty() << endl;
-    exmp.push(2);
-    //cout << exmp.isEmpty() << endl;
-    exmp.push(14);
-    exmp.push(13);
-    //cout << exmp.quantity() << endl;
-
-    //cout << exmp.quantity() << endl;
-    cout << exmp.pop() << " " << exmp.pop() << " " << exmp.pop();
-    //cout << exmp.quantity() << endl;
+    Stack<int> ss;
+    ss.push(8744);
+    ss.push(909);
+    ss.push(4512);
+    ss.push(2);
+    ss.push(1805);
+    cout << ss.pop() << endl;
+    cout << ss.pop() << endl;
+    cout << ss.pop() << endl;
+    cout << ss.pop() << endl;
+    cout << ss.pop() << endl;
+    cout << "END OF STACK" << endl;
+    cout << ss.pop() << endl;
+    cout << ss.pop() << endl;
     return a.exec();
 }
