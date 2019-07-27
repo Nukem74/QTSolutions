@@ -1,66 +1,65 @@
 #include <QCoreApplication>
 #include <iostream>
 using namespace std;
-const int MAX = 3;
 
-class Stack                             //declaration of a class
+class Distance                              //declaration of a class
 {
-private:                                //private members
-    int st[MAX];
-    int top;
-public:                                 //public members
-    class FULL                          //declaration of exception class
+private:                                    //private members
+    int feet;
+    float inches;
+public:                                     //public members
+    class InchesEx                          //declaration of exception-class
     {
         //empty
     };
 
-    class EMPTY                         //declaration of exception class
+    Distance()                              //constructor without arguments
     {
-        //empty
-    };
-
-    Stack()                             //constructor without arguments
-    {
-        top = -1;
-    }
-    void push(int var)                  //void method with 1 argument
-    {
-        if(top >= MAX-1)                //check conditions for throwing exception
-            throw FULL();
-        st[++top] = var;
+        feet = 0; inches = 0.0;
     }
 
-    int pop()                           //int method with no arguments
+    Distance(int ft, float in)              //constructor with 2 arguments
     {
-        if(top < 0)                     //check conditions for throwing exception
-            throw EMPTY();
-        return st[top--];
+        if(in >= 12.0)                      //check conditions for throwing exception
+            throw InchesEx();
+        feet = ft;
+        inches = in;
+    }
+
+    void getdist()                          //void method with no arguments
+    {
+        cout << "\nEnter feet: ";
+        cin >> feet;
+        cout << "Enter inches: ";
+        cin >> inches;
+        if(inches >= 12.0)                  //check conditions for throwing exception
+            throw InchesEx();
+    }
+
+    void showdist()                         //void method with no arguments
+    {
+        cout << feet << "\'-" << inches << '\"';
     }
 };
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Stack s1;
-    try                                 //trying suspicious elements for throwing exceptions
+    try                                     //check suspicious elements for throwing exceptions
     {
-        s1.push(11);
-        s1.push(22);
-        s1.push(33);
-        s1.push(44);
-        cout << s1.pop() << endl;
-        cout << s1.pop() << endl;
-        cout << s1.pop() << endl;
-        cout << s1.pop() << endl;
+        Distance dist1(17, 3.5);
+        Distance dist2;
+        dist2.getdist();
+
+        cout << "\n dist1 = "; dist1.showdist();
+        cout << "\n dist2 = "; dist2.showdist();
+
     }
-    catch(Stack::FULL)                  //catch exceptions with name FULL
+    catch(Distance::InchesEx)               //catch errors, send message
     {
-        cout << "Exception! Stack overflow!" << endl;
+        cout << "\nInit error: "
+                "inches value exceed limit";
     }
-    catch(Stack::EMPTY)                 //catch exceptions with name EMPTY
-    {
-        cout << "Exception! Stack empty!" << endl;
-    }
-    cout << "End" << endl;
+    cout << endl;
     return a.exec();
 }
