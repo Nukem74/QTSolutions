@@ -10,7 +10,15 @@ private:                                    //private members
 public:                                     //public members
     class InchesEx                          //declaration of exception-class
     {
-        //empty
+    public:
+        string origin;
+        float iValue;
+
+        InchesEx(string org, float in)
+        {
+            origin = org;
+            iValue = in;
+        }
     };
 
     Distance()                              //constructor without arguments
@@ -21,7 +29,7 @@ public:                                     //public members
     Distance(int ft, float in)              //constructor with 2 arguments
     {
         if(in >= 12.0)                      //check conditions for throwing exception
-            throw InchesEx();
+            throw InchesEx("argumented constructor", in);//providing exception with values
         feet = ft;
         inches = in;
     }
@@ -33,7 +41,7 @@ public:                                     //public members
         cout << "Enter inches: ";
         cin >> inches;
         if(inches >= 12.0)                  //check conditions for throwing exception
-            throw InchesEx();
+            throw InchesEx("getdist() method", inches);//providing exception with values
     }
 
     void showdist()                         //void method with no arguments
@@ -45,21 +53,24 @@ public:                                     //public members
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    try                                     //check suspicious elements for throwing exceptions
+    try
     {
         Distance dist1(17, 3.5);
         Distance dist2;
         dist2.getdist();
 
-        cout << "\n dist1 = "; dist1.showdist();
-        cout << "\n dist2 = "; dist2.showdist();
+        cout << "\ndist1 = ";
+        dist1.showdist();
 
+        cout << "\ndist2 = ";
+        dist2.showdist();
     }
-    catch(Distance::InchesEx)               //catch errors, send message
+    catch(Distance::InchesEx ix)
     {
-        cout << "\nInit error: "
-                "inches value exceed limit";
+        cout << "\nInit Error. Exception throwed by: " << ix.origin
+             << ". \n Inches value exceeded: " << ix.iValue;
     }
     cout << endl;
+
     return a.exec();
 }
