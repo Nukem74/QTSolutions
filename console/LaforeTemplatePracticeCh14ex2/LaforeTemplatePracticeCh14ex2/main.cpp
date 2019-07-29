@@ -147,7 +147,7 @@ public:                                             //public members
         }
         return current;
     }
-    void headsUp()                                  //void-returning method with no arguments
+    void headsUp() const                            //void-returning method with no arguments
     {
         node<TYPE>* current;                        //declaration of node-typed pointer
         current = first;                            //assign first node to current
@@ -164,16 +164,23 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     queue<int> qq;
     int entry;
-    cin >> entry;
-    qq.enqueue(entry);
-    cin >> entry;
-    qq.enqueue(entry);
-    cin >> entry;
-    qq.enqueue(entry);
-    cin >> entry;
-    qq.enqueue(entry);
-    cin >> entry;
-    qq.enqueue(entry);
+    try
+    {
+        cin >> entry;
+        qq.enqueue(entry);
+        cin >> entry;
+        qq.enqueue(entry);
+        cin >> entry;
+        qq.enqueue(entry);
+        cin >> entry;
+        qq.enqueue(entry);
+        cin >> entry;
+        qq.enqueue(entry);
+    }
+    catch(bad_alloc)
+    {
+        cout << "Exception!";
+    }
 
     cout << endl;
 
