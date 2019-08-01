@@ -6,17 +6,29 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    double arr[] = {1.1, 2.2, 3.3, 4.4 };   //initialising double array
+    int arr[] = {100, 110, 120, 130};       //initialising array
 
-    vector<double> v1(arr, arr+4);          //initialising double vector with array members
-    vector<double> v2(4);                   //defining vector with 4 members
+    vector<int> v (arr, arr+4);             //initialising vector with array members
 
-    v1.swap(v2);                            //using .swap() to swap members of vectors
+    cout << "\nBefore isertion: ";
 
-    while(!v2.empty())                      //using .empty() to designate end of cycle
+    for(int j = 0; j < v.size(); j++)       //using .size to designate end-of-cycle
     {
-        cout << v2.back() << ' ';           //using .back() to display last member of vector
-        v2.pop_back();                      //using .pop_back() to delete last member of vector
+        cout << v[j] << ' ';                //using [] to get access to vector's member
+    }
+    v.insert(v.begin() + 2, 115);           //using .insert() and .begin() to insert new member at some position in vector
+
+    cout << "\n After insertion: ";
+    for(int i = 0; i < v.size(); i++)       //using .size to designate end-of-cycle
+    {
+        cout << v[i] << ' ';                //using [] to get access to vector's member
+    }
+    v.erase(v.begin() + 2);                 //using .erase and .begin to erase member at some position
+
+    cout << "\n After deletion: ";
+    for(int i = 0; i < v.size(); i++)       //using .size to designate end-of-cycle
+    {
+        cout << v[i] << ' ';                //using [] to get access to vector's member
     }
 
     cout << endl;
