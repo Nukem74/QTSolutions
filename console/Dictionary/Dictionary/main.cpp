@@ -20,11 +20,25 @@ class nota
 private:
     std::string key;                                                //private string member, that contains key to data
     TYPE* data;                                                     //private templated pointer, that directs to data object
-    nota()
-    {
-        //empty
-    }
     friend class dictionary<TYPE>;                                  //declaration of class friendship(I hope once i will make here a proper inheritance)
+public:
+    void setKey(std::string s)
+    {
+        key = s;
+    }
+    void setData(TYPE* d)
+    {
+        data = d;
+    }
+    std::string getKey()
+    {
+        return key;
+    }
+
+    TYPE* getData()
+    {
+        return data;
+    }
 };
 
 template <class TYPE>
@@ -99,36 +113,59 @@ public:
                 cout << headers[i].key      << ':'
                      << *(headers[i].data)  << endl;                //display full record in dictionary
         }
+        cout << endl;
     }
     nota <TYPE> find(string s)                                      //my binary searching prototype
     {
-        if(headers.begin().key == s)
-            return headers.begin();
+        if(headers[0].key == s)                                     //this works good
+        {
+            cout << " first element checked" << endl;
+            return headers[0];
+        }
+
         unsigned int left = 1;
 
-        if(headers.end().key == s)
-            return headers.end();
-        unsigned int right = headers.size() - 1;
-
-        while(left < right)
+        if(headers[headers.size()].key == s)                        //this doesn't work
         {
-            if(headers[(right - left)/2] == s)
-            {
-                return headers[(right - left)/2];
-            }
+            cout << " last element checked" << endl;
+            return headers[headers.size()];
+        }
 
-            if(headers[(right - left)/2] < s)
-            {
-                right = (right - left)/2;
-                continue;
-            }
 
-            if(headers[(right - left)/2] > s)
+        unsigned int right = headers.size() - 1;
+        int middle = (right-left)/2;
+
+        while(left < right)                                         //searching loop doesn't iterate well
+        {
+            cout << "iterating " << middle;
+            switch (headers[middle].key.compare(s))
             {
-                left = (right - left)/2;
-                continue;
+                case -1:
+                {
+                    right = middle;
+                    break;
+                }
+            case 0:
+                {
+                    return headers[(right-left)/2];
+                    break;
+                }
+            case 1:
+                {
+                    left = middle;
+                    break;
+                }
+            default:
+                {
+                    cout << "switch result out of boundaries" << endl;
+                }
             }
         }
+        cout << "no result";
+        nota <TYPE> NR;
+        NR.key = "0";
+        NR.data = nullptr;
+        return NR;
 
 
     }
@@ -151,5 +188,8 @@ int main(int argc, char *argv[])
     int fvalue = 55114;
     spec.add("fF", &fvalue);
     spec.show();
+    nota <int> sample;
+    sample = spec.find("fb");
+    cout << sample.getKey() << ' ' << *(sample.getData()) << endl;
     return a.exec();
 }
