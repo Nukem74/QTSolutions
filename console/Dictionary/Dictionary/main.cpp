@@ -14,6 +14,8 @@ using namespace std;
 template <class TYPE>
 class dictionary;                                                   //prototype of a template class
 
+char temp;
+
 template <class TYPE>                                               //declaration of a template class
 class nota
 {
@@ -96,7 +98,7 @@ public:
         current->data = d;                                          //setting data-pointer to new member's pointer
         for(unsigned int i = 0; i < headers.size(); i++)                     //iterating through vector to place new member at distinct place
         {
-            if(k <= headers[i].key)                                 //condition for inserting new member
+            if(headers[i].key.compare(k) > 0)                                 //condition for inserting new member
             {
                 headers.insert(headers.begin() + i, *current);      //.insert new member in vector
                 return;                                             //skip method
@@ -115,6 +117,7 @@ public:
         }
         cout << endl;
     }
+
     nota <TYPE> find(string s)                                      //my binary searching prototype
     {
         if(headers[0].key == s)                                     //this works good
@@ -123,43 +126,50 @@ public:
             return headers[0];
         }
 
-        unsigned int left = 1;
+        unsigned int left = 0;
 
-        if(headers[headers.size()].key == s)                        //this doesn't work
+        if(headers[headers.size() - 1].key == s)                    //this works good
         {
             cout << " last element checked" << endl;
-            return headers[headers.size()];
+            return headers[headers.size() - 1];
         }
 
-
         unsigned int right = headers.size() - 1;
-        int middle = (right-left)/2;
 
-        while(left < right)                                         //searching loop doesn't iterate well
+        int middle = (left + right) / 2;
+
+        while(right > left)                                         //14.08.2019 searching loop seems to be ok, but I don't know how exactly do i fixed it
         {
-            cout << "iterating " << middle;
-            switch (headers[middle].key.compare(s))
+            middle = (left + right) / 2;
+            //cout << "iterating " << middle;
+            switch (s.compare(headers[middle].key))
             {
-                case -1:
+            case -1:                                                //this case doesn't work well
                 {
-                    right = middle;
+                    cout << "-1 case : " << middle << endl;
+                    right = static_cast<unsigned int> (middle);
+                    cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
-            case 0:
+            case 0:                                                 //this case working
                 {
-                    return headers[(right-left)/2];
+                    return headers[middle];
                     break;
                 }
-            case 1:
+            case 1:                                                 //this case seem to be working
                 {
-                    left = middle;
+                    cout << "1 case : " << middle << endl;
+                    left = static_cast<unsigned int> (middle);;
+                    cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
             default:
                 {
                     cout << "switch result out of boundaries" << endl;
+                    break;
                 }
             }
+            cin >> temp;
         }
         cout << "no result";
         nota <TYPE> NR;
@@ -176,20 +186,20 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     int value = 5;
-    dictionary<int>spec("aA", &value);
+    dictionary<int>spec("aa", &value);
     int ovalue = 99;
     spec.add("fb", &ovalue);
     int cvalue = 13;
     spec.add("aA",&cvalue);
     int dvalue = 301;
-    spec.add("AA",&dvalue);
+    spec.add("aC",&dvalue);
     int evalue = 2;
     spec.add("AA", &evalue);
     int fvalue = 55114;
     spec.add("fF", &fvalue);
     spec.show();
     nota <int> sample;
-    sample = spec.find("fb");
+    sample = spec.find("aa");
     cout << sample.getKey() << ' ' << *(sample.getData()) << endl;
     return a.exec();
 }
