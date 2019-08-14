@@ -14,7 +14,7 @@ using namespace std;
 template <class TYPE>
 class dictionary;                                                   //prototype of a template class
 
-char temp;
+//char temp;
 
 template <class TYPE>                                               //declaration of a template class
 class nota
@@ -118,7 +118,7 @@ public:
         cout << endl;
     }
 
-    nota <TYPE> find(string s)                                      //my binary searching prototype
+    nota <TYPE> find(string s)                                      //binary searching method with one argument
     {
         if(headers[0].key == s)                                     //this works good
         {
@@ -138,40 +138,40 @@ public:
 
         int middle = (left + right) / 2;
 
-        while(right > left)                                         //14.08.2019 searching loop seems to be ok, but I don't know how exactly do i fixed it
+        while(right > left)                                         //searching loop is OK
         {
             middle = (left + right) / 2;
             //cout << "iterating " << middle;
             switch (s.compare(headers[middle].key))
             {
-            case -1:                                                //this case doesn't work well
+            case -1:                                                //this case is OK
                 {
                     cout << "-1 case : " << middle << endl;
                     right = static_cast<unsigned int> (middle);
                     cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
-            case 0:                                                 //this case working
+            case 0:                                                 //this case is OK
                 {
                     return headers[middle];
                     break;
                 }
-            case 1:                                                 //this case seem to be working
+            case 1:                                                 //this case is OK
                 {
                     cout << "1 case : " << middle << endl;
                     left = static_cast<unsigned int> (middle);;
                     cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
-            default:
+            default:                                                //this case also OK
                 {
                     cout << "switch result out of boundaries" << endl;
                     break;
                 }
             }
-            cin >> temp;
+            //cin >> temp;
         }
-        cout << "no result";
+        cout << "no result";                                        //return NO RESULT
         nota <TYPE> NR;
         NR.key = "0";
         NR.data = nullptr;
@@ -187,8 +187,8 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     int value = 5;
     dictionary<int>spec("aa", &value);
-    int ovalue = 99;
-    spec.add("fb", &ovalue);
+    int bvalue = 99;
+    spec.add("fb", &bvalue);
     int cvalue = 13;
     spec.add("aA",&cvalue);
     int dvalue = 301;
@@ -197,9 +197,39 @@ int main(int argc, char *argv[])
     spec.add("AA", &evalue);
     int fvalue = 55114;
     spec.add("fF", &fvalue);
+    int gvalue = 22;
+    spec.add("aN", &gvalue);
+    int hvalue = 4004;
+    spec.add("xC", &hvalue);
+    int ivalue = 333;
+    spec.add("mY", &ivalue);
+    int jvalue = 2;
+    spec.add("fa", &jvalue);
+    int kvalue = 12440;
+    spec.add("rU", &kvalue);
+    int lvalue = 158;
+    spec.add("zz", &lvalue);
+    int mvalue = 907;
+    spec.add("aa", &mvalue);
+    int nvalue = 6;
+    spec.add("jj", &nvalue);
+    int ovalue = 21;
+    spec.add("Ew", &ovalue);
+    int pvalue = 63472;
+    spec.add("Ys", &pvalue);
+    int qvalue = 11;
+    spec.add("iO", &qvalue);
+    int rvalue = 89;
+    spec.add("Rm", &rvalue);
+    int svalue = 88;
+    spec.add("qQ", &svalue);
+    int tvalue = 9015;
+    spec.add("pF", &tvalue);
+    int uvalue = 10102;
+    spec.add("Ff", &uvalue);
     spec.show();
     nota <int> sample;
-    sample = spec.find("aa");
+    sample = spec.find("fb");
     cout << sample.getKey() << ' ' << *(sample.getData()) << endl;
     return a.exec();
 }
