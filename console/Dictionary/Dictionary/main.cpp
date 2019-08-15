@@ -81,6 +81,10 @@ public:
         headers.push_back(*current);
         delete current;
     }*/
+    nota<TYPE>& operator[] (const int i)                            //operator [] overloaded to grant access only to vector's members, not to vector functions
+    {
+        return headers[i];
+    }
     void add(std::string k, TYPE* d)                                //void method with 2 arguments
     {
         nota <TYPE> * current;
@@ -123,6 +127,14 @@ public:
         if(headers[0].key == s)                                     //this works good
         {
             cout << " first element checked" << endl;
+            int i = 0;
+
+            while(headers[i].key == s)                              //prototype finding all notes with same key
+            {
+                cout << headers[i].key << ':' << *headers[i].data << endl;
+                i++;
+            }
+
             return headers[0];
         }
 
@@ -131,6 +143,13 @@ public:
         if(headers[headers.size() - 1].key == s)                    //this works good
         {
             cout << " last element checked" << endl;
+            int i = headers.size() - 1;
+
+            while(headers[i].key == s)                              //prototype finding all notes with same key
+            {
+                cout << headers[i].key << ':' << *headers[i].data << endl;
+                i--;
+            }
             return headers[headers.size() - 1];
         }
 
@@ -153,7 +172,16 @@ public:
                 }
             case 0:                                                 //this case is OK
                 {
-                    return headers[middle];
+                    int point = middle;
+                    while(s.compare(headers[middle - 1].key) == 0)
+                          middle--;
+                    while(s.compare(headers[middle].key) == 0)      //prototype finding all notes with same key
+                        {
+                            cout << headers[middle].key << ':' << *headers[middle].data << endl;
+                            middle++;
+
+                        }
+                    return headers[point];
                     break;
                 }
             case 1:                                                 //this case is OK
@@ -186,50 +214,25 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     int value = 5;
-    dictionary<int>spec("aa", &value);
+    dictionary<int>spec("AA", &value);
     int bvalue = 99;
-    spec.add("fb", &bvalue);
+    spec.add("AA", &bvalue);
     int cvalue = 13;
-    spec.add("aA",&cvalue);
+    spec.add("aa",&cvalue);
     int dvalue = 301;
-    spec.add("aC",&dvalue);
+    spec.add("aa",&dvalue);
     int evalue = 2;
-    spec.add("AA", &evalue);
+    spec.add("zz", &evalue);
     int fvalue = 55114;
-    spec.add("fF", &fvalue);
+    spec.add("af", &fvalue);
     int gvalue = 22;
     spec.add("aN", &gvalue);
     int hvalue = 4004;
-    spec.add("xC", &hvalue);
-    int ivalue = 333;
-    spec.add("mY", &ivalue);
-    int jvalue = 2;
-    spec.add("fa", &jvalue);
-    int kvalue = 12440;
-    spec.add("rU", &kvalue);
-    int lvalue = 158;
-    spec.add("zz", &lvalue);
-    int mvalue = 907;
-    spec.add("aa", &mvalue);
-    int nvalue = 6;
-    spec.add("jj", &nvalue);
-    int ovalue = 21;
-    spec.add("Ew", &ovalue);
-    int pvalue = 63472;
-    spec.add("Ys", &pvalue);
-    int qvalue = 11;
-    spec.add("iO", &qvalue);
-    int rvalue = 89;
-    spec.add("Rm", &rvalue);
-    int svalue = 88;
-    spec.add("qQ", &svalue);
-    int tvalue = 9015;
-    spec.add("pF", &tvalue);
-    int uvalue = 10102;
-    spec.add("Ff", &uvalue);
+    spec.add("zz", &hvalue);
+
     spec.show();
+
     nota <int> sample;
-    sample = spec.find("fb");
-    cout << sample.getKey() << ' ' << *(sample.getData()) << endl;
+    sample = spec.find("zz");
     return a.exec();
 }
