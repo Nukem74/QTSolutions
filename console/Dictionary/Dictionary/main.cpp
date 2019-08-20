@@ -53,6 +53,7 @@ public:
     {
         //empty
     }
+//////////////////////////////////////
     dictionary(std::string k, TYPE* d)                              //constructor with 2 arguments
     {
         nota <TYPE> * current;
@@ -71,23 +72,40 @@ public:
         headers.push_back(*current);                                //pushing new member to vector
         delete current;                                             //delete pointer for sure
     }
-
-    /*dictionary(std::string k, TYPE d)
+/////////////////////////////////////
+    dictionary(std::string k, TYPE d)                               //overloaded contructor with 2 arguments
     {
-                                                                    //here goes constructor that initialises vector with templated object(not a pointer)
-        nota <TYPE> * current = new nota <TYPE>;
-        current->key = k;
-        *current->data = d;
-        headers.push_back(*current);
-        delete current;
-    }*/
+
+        nota <TYPE> * current;
+        try
+        {
+            current = new nota <TYPE>;                              //allocating memory for new member of vector
+        }
+        catch(bad_alloc)                                            //exception for failed allocation
+        {
+            cout << "dictionary(string, TYPE): bad allocation memory";
+            current = nullptr;
+            delete current;
+        }
+        current->key = k;                                           //setting key-value to new member's field
+        current->data = &d;                                         //setting data-pointer to argument's adress
+        headers.push_back(*current);                                //pushing new member to vector
+        delete current;                                             //delete pointer for sure
+    }
+//////////////////////////////
+    dictionary(nota <TYPE> N)                                       //overloaded constructor with single argument
+    {
+        headers.push_back(N);
+    }
+////////////////////////////////////////
     nota<TYPE>& operator[] (const int i)                            //operator [] overloaded to grant access only to vector's members, not to vector functions
     {
         return headers[i];
     }
+////////////////////////////////////
     void add(std::string k, TYPE* d)                                //void method with 2 arguments
     {
-        nota <TYPE> * current;
+        nota <TYPE> * current;                                      //declaration of a template pointer
         try
         {
             current = new nota <TYPE>;                              //allocating memory for new member of vector
@@ -100,9 +118,9 @@ public:
         }
         current->key = k;                                           //seting key-value to new member's field
         current->data = d;                                          //setting data-pointer to new member's pointer
-        for(unsigned int i = 0; i < headers.size(); i++)                     //iterating through vector to place new member at distinct place
+        for(unsigned int i = 0; i < headers.size(); i++)            //iterating through vector to place new member at distinct place
         {
-            if(headers[i].key.compare(k) > 0)                                 //condition for inserting new member
+            if(headers[i].key.compare(k) > 0)                       //condition for inserting new member
             {
                 headers.insert(headers.begin() + i, *current);      //.insert new member in vector
                 return;                                             //skip method
@@ -111,23 +129,52 @@ public:
         headers.push_back(*current);                                //if condition for placing new member didn't met - place new member in the back of the vector
         delete current;
     }
+///////////////////////////////////
+    void add(std::string k, TYPE d)                                 //overloaded void method with 2 arguments
+    {
+        nota <TYPE> * current;                                      //declaration of a template pointer
+        try
+        {
+            current = new nota <TYPE>;                              //allocating memory for new member of vector
+        }
+        catch(bad_alloc)                                            //exception for failed allocation
+        {
+            cout << ".add(string, TYPE*) dictionary: bad allocation memory";
+            current = nullptr;
+            delete current;
+        }
+        current->key = k;                                           //seting key-value to new member's field
+        current->data = &d;                                         //setting data-pointer to adress of argument's adress
+        for(unsigned int i = 0; i < headers.size(); i++)            //iterating through vector to place new member at distinct place
+        {
+            if(headers[i].key.compare(k) > 0)                       //condition for inserting new member
+            {
+                headers.insert(headers.begin() + i, *current);      //.insert new member in vector
+                return;                                             //skip method
+            }
+        }
+        headers.push_back(*current);                                //if condition for placing new member didn't met - place new member in the back of the vector
+        delete current;
+    }
+
+/////////////////////
     void show() const                                               //void method with no arguments
     {
         for(unsigned int i = 0; i < headers.size(); i++)            //iterating through all vector's members
         {
 
                 cout << headers[i].key      << ':'
-                     << *(headers[i].data)  << endl;                //display full record in dictionary
+                     << *(headers[i].data)  << endl;                //display a record in dictionary
         }
         cout << endl;
     }
-
+///////////////////////////////
     nota <TYPE> find(string s)                                      //binary searching method with one argument
     {
-        if(headers[0].key == s)                                     //this works good
+        if(headers[0].key == s)                                     //checking first member of vector
         {
             cout << " first element checked" << endl;
-            int i = 0;
+            int i = 0;                                              //local variable
 
             while(headers[i].key == s)                              //prototype finding all notes with same key
             {
@@ -138,12 +185,12 @@ public:
             return headers[0];
         }
 
-        unsigned int left = 0;
+        unsigned int left = 0;                                      //left border of vector
 
-        if(headers[headers.size() - 1].key == s)                    //this works good
+        if(headers[headers.size() - 1].key == s)                    //checking last member of vector
         {
             cout << " last element checked" << endl;
-            int i = headers.size() - 1;
+            int i = headers.size() - 1;                             //local variable
 
             while(headers[i].key == s)                              //prototype finding all notes with same key
             {
@@ -153,26 +200,26 @@ public:
             return headers[headers.size() - 1];
         }
 
-        unsigned int right = headers.size() - 1;
+        unsigned int right = headers.size() - 1;                    //right border of vector
 
-        int middle = (left + right) / 2;
+        int middle = (left + right) / 2;                            //variable middle member
 
-        while(right > left)                                         //searching loop is OK
+        while(right > left)                                         //search while borders didn't cross
         {
-            middle = (left + right) / 2;
+            middle = (left + right) / 2;                            //temporal code duplication
             //cout << "iterating " << middle;
-            switch (s.compare(headers[middle].key))
+            switch (s.compare(headers[middle].key))                 //switch results of comparing
             {
-            case -1:                                                //this case is OK
+            case -1:                                                //changing borders
                 {
                     cout << "-1 case : " << middle << endl;
-                    right = static_cast<unsigned int> (middle);
+                    right = static_cast<unsigned int> (middle);     //new value for right border of the vector
                     cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
-            case 0:                                                 //this case is OK
+            case 0:                                                 //key value matches arguments value
                 {
-                    int point = middle;
+                    int point = middle;                             //local variable
                     while(s.compare(headers[middle - 1].key) == 0)
                           middle--;
                     while(s.compare(headers[middle].key) == 0)      //prototype finding all notes with same key
@@ -181,17 +228,17 @@ public:
                             middle++;
 
                         }
-                    return headers[point];
+                    return headers[point];                          //return result of searching
                     break;
                 }
-            case 1:                                                 //this case is OK
+            case 1:                                                 //changing borders
                 {
                     cout << "1 case : " << middle << endl;
-                    left = static_cast<unsigned int> (middle);;
+                    left = static_cast<unsigned int> (middle);      //new value for left border
                     cout << " ( " << right << " - " << left << " ) / 2 = " << middle << endl;
                     break;
                 }
-            default:                                                //this case also OK
+            default:                                                //failed comparison result
                 {
                     cout << "switch result out of boundaries" << endl;
                     break;
@@ -213,26 +260,13 @@ public:
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    int value = 5;
-    dictionary<int>spec("AA", &value);
-    int bvalue = 99;
-    spec.add("AA", &bvalue);
-    int cvalue = 13;
-    spec.add("aa",&cvalue);
-    int dvalue = 301;
-    spec.add("aa",&dvalue);
-    int evalue = 2;
-    spec.add("zz", &evalue);
-    int fvalue = 55114;
-    spec.add("af", &fvalue);
-    int gvalue = 22;
-    spec.add("aN", &gvalue);
-    int hvalue = 4004;
-    spec.add("zz", &hvalue);
-
-    spec.show();
-
-    nota <int> sample;
-    sample = spec.find("zz");
+    string data = "fed";
+    dictionary <string> sample ("aa", "b");
+    sample.add("cc", "data");
+    sample.add("mn", "rah");
+    sample.add("oa", "u!o");
+    sample.add("ty", "e.");
+    sample.add("12", "fk");
+    sample.show();
     return a.exec();
 }
