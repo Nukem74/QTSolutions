@@ -1,13 +1,9 @@
-#include <QCoreApplication>
+#ifndef SQLITERALS_H
+#define SQLITERALS_H
 #include <string>
-#include <iostream>
-#include <Dictionary.h>
-#include <Queue.h>
 using namespace std;
-
-class keywords
+namespace SQLiterals
 {
-public:
 const string SHOW = "SHOW";
 const string CRT = "CREATE";
 const string DBS = "DATABASE";
@@ -46,26 +42,5 @@ const string LIKE = "LIKE";
 const string IN = "IN";
 const string JOIN = "JOIN";
 const string VIEW = "VIEW";
-
-
-};
-
-int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
-    dictionary <string> dict;
-    queue <string> proc;
-    keywords key;
-    string expression = key.SEL + key._ + key.DNCT + key._ + key.USE + key._ + key.FROM + key._ + key.TBL;
-    dict.add(key.SEL, expression);
-    //proc.enqueue(expression);
-    expression = key.DCRB + key._ + key.CNT + key._ + key.TBL + key._ + key.SURC + key._ + key.SET;
-    dict.add(key.DCRB, expression);
-    //proc.enqueue(expression);
-    expression = key.IN + key._ + key.MAX + key._ + key.UPD + key._ + key.BTWN + key._ + key.FRGN;
-    dict.add(key.IN, expression);
-    //proc.enqueue(expression);
-    dict.show();
-    //proc.headsUp();
-    return a.exec();
 }
+#endif // SQLITERALS_H
