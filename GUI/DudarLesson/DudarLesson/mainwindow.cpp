@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <QMessageBox>
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -13,8 +14,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
 void MainWindow::on_pushButton_clicked()
 {
+    QMessageBox::StandardButton reply =
+    QMessageBox::question(this, "Header", "Common text", QMessageBox::Yes | QMessageBox ::No);
 
-    MainWindow::ui->label->setText("Миу!");
+    if (reply == QMessageBox::Yes)
+    {
+        QApplication::quit();
+    }
+    else
+    {
+        qDebug() << "No button hit";
+    }
 }
