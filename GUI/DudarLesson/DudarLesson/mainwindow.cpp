@@ -6,26 +6,24 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
+
     delete ui;
 }
 
+QString* str = new QString();                                       //this is very important goal to me now, at 17.09.2019
+                                                                    //now I can extract data from ui objects to operate them
+void MainWindow::on_lineEdit_textEdited(const QString &arg1)        //with other functions and this is the proof
+{
+    *str = arg1;
+}
 
 void MainWindow::on_pushButton_clicked()
 {
-    QMessageBox::StandardButton reply =
-    QMessageBox::question(this, "Header", "Common text", QMessageBox::Yes | QMessageBox ::No);
-
-    if (reply == QMessageBox::Yes)
-    {
-        QApplication::quit();
-    }
-    else
-    {
-        qDebug() << "No button hit";
-    }
+    ui->label->setText(str->toUpper());
 }
