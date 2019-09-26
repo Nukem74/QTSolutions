@@ -1,5 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QQueue>
+#include <QMap>
+
+QQueue<QString> que;
+QMultiMap<QString, QString> map;
+QString* temp = new QString();
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -7,8 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-
-QString* temp = new QString();
 
 MainWindow::~MainWindow()
 {
@@ -50,8 +54,6 @@ void MainWindow::on_DATABASE_button_clicked()
     *temp += " DATABASE ";
     ui->lineEdit->setText(*temp);
 }
-
-
 
 void MainWindow::on_DATABASES_button_clicked()
 {
@@ -238,4 +240,14 @@ void MainWindow::on_WHERE_button_clicked()
 {
     *temp += " WHERE ";
     ui->lineEdit->setText(*temp);
+}
+
+
+void MainWindow::on_ENQUEUE_button_clicked()
+{
+    que.enqueue(*temp);
+    QListWidgetItem* current = new QListWidgetItem;
+    current->setText(*temp);
+    ui->QueueList->addItem(current);
+    *temp = " ";
 }
