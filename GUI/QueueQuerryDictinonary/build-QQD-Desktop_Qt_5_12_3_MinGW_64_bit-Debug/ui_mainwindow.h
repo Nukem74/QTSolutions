@@ -65,6 +65,7 @@ public:
     QPushButton *JOIN_button;
     QPushButton *VIEW_button;
     QListWidget *QueueList;
+    QPushButton *EXEC_button;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -81,7 +82,7 @@ public:
         lineEdit->setGeometry(QRect(0, 390, 621, 20));
         ENQUEUE_button = new QPushButton(centralWidget);
         ENQUEUE_button->setObjectName(QString::fromUtf8("ENQUEUE_button"));
-        ENQUEUE_button->setGeometry(QRect(280, 410, 75, 23));
+        ENQUEUE_button->setGeometry(QRect(160, 410, 75, 23));
         SELECT_button = new QPushButton(centralWidget);
         SELECT_button->setObjectName(QString::fromUtf8("SELECT_button"));
         SELECT_button->setGeometry(QRect(180, 50, 71, 21));
@@ -193,6 +194,9 @@ public:
         QueueList = new QListWidget(centralWidget);
         QueueList->setObjectName(QString::fromUtf8("QueueList"));
         QueueList->setGeometry(QRect(265, 11, 351, 361));
+        EXEC_button = new QPushButton(centralWidget);
+        EXEC_button->setObjectName(QString::fromUtf8("EXEC_button"));
+        EXEC_button->setGeometry(QRect(370, 410, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -250,6 +254,7 @@ public:
         IN_button->setText(QApplication::translate("MainWindow", "IN", nullptr));
         JOIN_button->setText(QApplication::translate("MainWindow", "JOIN", nullptr));
         VIEW_button->setText(QApplication::translate("MainWindow", "VIEW", nullptr));
+        EXEC_button->setText(QApplication::translate("MainWindow", "Execute", nullptr));
     } // retranslateUi
 
 };

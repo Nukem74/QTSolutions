@@ -96,6 +96,8 @@ private slots:
 
     void on_ENQUEUE_button_clicked();
 
+    void on_EXEC_button_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

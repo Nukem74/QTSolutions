@@ -241,13 +241,18 @@ void MainWindow::on_WHERE_button_clicked()
     *temp += " WHERE ";
     ui->lineEdit->setText(*temp);
 }
-
+//осуществить проверку на пустую строку
 
 void MainWindow::on_ENQUEUE_button_clicked()
 {
     que.enqueue(*temp);
-    QListWidgetItem* current = new QListWidgetItem;
-    current->setText(*temp);
-    ui->QueueList->addItem(current);
-    *temp = " ";
+    ui->QueueList->addItem(*temp);
+    *temp = "";
+    ui->lineEdit->setText(*temp);
+}
+
+void MainWindow::on_EXEC_button_clicked()
+{
+    //que.dequeue();
+    ui->QueueList->takeItem(ui->QueueList->currentRow());
 }
