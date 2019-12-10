@@ -10,7 +10,6 @@ Auth_Window::Auth_Window(QWidget *parent) :
 
 Auth_Window::~Auth_Window()
 {
-    emit AuthClosed();
     delete ui;
 }
 
@@ -26,5 +25,5 @@ void Auth_Window::on_registerPushButton_2_clicked()
 
 void Auth_Window::on_loginPushButton_clicked()
 {
-    emit AuthClosed();
+    this->~Auth_Window();
 }

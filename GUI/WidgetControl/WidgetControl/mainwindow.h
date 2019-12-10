@@ -17,8 +17,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void display();
-public slots:
-    void AuthWindowClosed();
+/*public slots:
+    void AuthWindowClosed();*/
 
 private:
     Ui::MainWindow *ui_Main;

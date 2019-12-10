@@ -90,6 +90,9 @@ public:
         label->setEnabled(false);
         label->setGeometry(QRect(70, 170, 181, 20));
         label->setTextInteractionFlags(Qt::NoTextInteraction);
+        QWidget::setTabOrder(lineEdit, lineEdit_2);
+        QWidget::setTabOrder(lineEdit_2, loginPushButton);
+        QWidget::setTabOrder(loginPushButton, registerPushButton_2);
 
         retranslateUi(Auth_Window);
 

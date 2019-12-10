@@ -104,6 +104,12 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>loginPushButton</tabstop>
+  <tabstop>registerPushButton_2</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

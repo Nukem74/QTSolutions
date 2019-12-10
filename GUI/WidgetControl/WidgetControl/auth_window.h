@@ -15,8 +15,8 @@ class Auth_Window : public QWidget
 public:
     explicit Auth_Window(QWidget *parent = nullptr);
     ~Auth_Window();
-signals:
-    void AuthClosed();
+/*signals:
+    void AuthClosed();*/
 
 private slots:
     void on_registerPushButton_2_clicked();
