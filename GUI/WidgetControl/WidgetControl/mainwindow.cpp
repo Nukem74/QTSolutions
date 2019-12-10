@@ -25,5 +25,7 @@ void MainWindow::display()                                             //Ooops, 
 
 MainWindow::~MainWindow()
 {
+    qDebug("ui_Main deleted");
     delete ui_Main;
+    exit(0);
 }

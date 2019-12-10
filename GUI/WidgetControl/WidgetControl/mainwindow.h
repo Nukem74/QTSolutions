@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "auth_window.h"
-#include "reg_window.h"
+//#include "reg_window.h"
 
 namespace Ui {
 class MainWindow;
